@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"LCD1602.obj",
+"mainX.obj" 
+TO "LCD1602P" 

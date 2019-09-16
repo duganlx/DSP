@@ -1,0 +1,82 @@
+C51 COMPILER V9.01   MAINX                                                                 09/16/2019 16:46:42 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
+OBJECT MODULE PLACED IN mainX.OBJ
+COMPILER INVOKED BY: E:\software\Keil\C51\BIN\C51.EXE mainX.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<intrins.h>
+   3          #include<string.h>
+   4          
+   5          sbit Switch=P3^0;
+   6          
+   7          unsigned char *strCode="                I Love You!";
+   8          
+   9          /*
+  10            引入外部方法
+  11          */
+  12          extern void delay_ms(int ms);
+  13          extern void initialize_LCD();
+  14          extern void write_String(int r, int c, char *str);
+  15          
+  16          /**
+  17          * 水平滚动文字
+  18          *
+  19          * @return
+  20          */
+  21          void h_Scroll_Words(){
+  22   1              int i;
+  23   1              initialize_LCD();
+  24   1              write_String(0,0, "    Example-1   ");
+  25   1              while(1){
+  26   2                      /*
+  27   2                        fun1
+  28   2                      */
+  29   2                      for(i = 0; i<strlen(strCode); i++){
+  30   3                              write_String(1, 0, strCode + i);
+  31   3                              delay_ms(100);
+  32   3                      }
+  33   2                      
+  34   2                      if(Switch != 0) break;
+  35   2      
+  36   2                      /*
+  37   2                        fun2
+  38   2                      */
+  39   2      //              for(i = 0; i < 16; i++){
+  40   2      //                      write_String(1, i, "I Love You!");      
+  41   2      //                      delay_ms(100);
+  42   2      //                      write_String(1, 0, "                ");
+  43   2      //              }
+  44   2              }
+  45   1      
+  46   1      }
+  47          
+  48          /**
+  49          * 主函数 
+  50          */
+  51          void main(){
+  52   1              while(1){
+  53   2                      if(Switch == 0){
+  54   3                              h_Scroll_Words();
+  55   3                      }
+C51 COMPILER V9.01   MAINX                                                                 09/16/2019 16:46:42 PAGE 2   
+
+  56   2              }
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     96    ----
+   CONSTANT SIZE    =     45    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
