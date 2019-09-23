@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   MAINX                                                                 09/16/2019 16:46:42 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 09/23/2019 20:30:38 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
@@ -10,70 +10,176 @@ line level    source
    1          #include<reg51.h>
    2          #include<intrins.h>
    3          #include<string.h>
-   4          
-   5          sbit Switch=P3^0;
+   4          #include<stdlib.h>
+   5          #include<stdio.h>
    6          
-   7          unsigned char *strCode="                I Love You!";
-   8          
-   9          /*
-  10            引入外部方法
-  11          */
-  12          extern void delay_ms(int ms);
-  13          extern void initialize_LCD();
-  14          extern void write_String(int r, int c, char *str);
-  15          
-  16          /**
-  17          * 水平滚动文字
-  18          *
-  19          * @return
-  20          */
-  21          void h_Scroll_Words(){
-  22   1              int i;
-  23   1              initialize_LCD();
-  24   1              write_String(0,0, "    Example-1   ");
-  25   1              while(1){
-  26   2                      /*
-  27   2                        fun1
-  28   2                      */
-  29   2                      for(i = 0; i<strlen(strCode); i++){
-  30   3                              write_String(1, 0, strCode + i);
-  31   3                              delay_ms(100);
-  32   3                      }
-  33   2                      
-  34   2                      if(Switch != 0) break;
-  35   2      
-  36   2                      /*
-  37   2                        fun2
-  38   2                      */
-  39   2      //              for(i = 0; i < 16; i++){
-  40   2      //                      write_String(1, i, "I Love You!");      
-  41   2      //                      delay_ms(100);
-  42   2      //                      write_String(1, 0, "                ");
-  43   2      //              }
-  44   2              }
-  45   1      
-  46   1      }
-  47          
-  48          /**
-  49          * 主函数 
-  50          */
-  51          void main(){
-  52   1              while(1){
-  53   2                      if(Switch == 0){
-  54   3                              h_Scroll_Words();
-  55   3                      }
-C51 COMPILER V9.01   MAINX                                                                 09/16/2019 16:46:42 PAGE 2   
+   7          sbit switch1 = P3^0;
+   8          sbit switch2 = P3^1;
+   9          sbit switch3 = P3^2;
+  10          sbit switch4 = P3^3;
+  11          
+  12          unsigned char *strCode="                I Love You!";
+  13          
+  14          /*
+  15            引入外部方法
+  16          */
+  17          extern void delay_ms(int ms);
+  18          extern void initialize_LCD();
+  19          extern void write_LCD_CMD(unsigned char cmd8);
+  20          extern void write_String(int r, int c, char *str);
+  21          extern void write_LCD_Data(unsigned char data8);
+  22          
+  23          /**
+  24          * 水平滚动文字
+  25          *
+  26          * @return
+  27          */
+  28          void h_Scroll_Words(){
+  29   1              int i;
+  30   1              initialize_LCD();
+  31   1              write_String(0,0, "    Example-1   ");
+  32   1              while(1){
+  33   2                      /*
+  34   2                        fun1
+  35   2                      */
+  36   2                      for(i = 0; i<strlen(strCode); i++){
+  37   3                              write_String(1, 0, strCode + i);
+  38   3                              delay_ms(100);
+  39   3                      }
+  40   2                      
+  41   2                      if(switch1 != 0) break;
+  42   2      
+  43   2                      /*
+  44   2                        fun2
+  45   2                      */
+  46   2      //              for(i = 0; i < 16; i++){
+  47   2      //                      write_String(1, i, "I Love You!");      
+  48   2      //                      delay_ms(100);
+  49   2      //                      write_String(1, 0, "                ");
+  50   2      //              }
+  51   2              }
+  52   1      
+  53   1      }
+  54          
+  55          /**
+C51 COMPILER V9.01   MAINX                                                                 09/23/2019 20:30:38 PAGE 2   
 
-  56   2              }
-  57   1      }
+  56          * 随机数相加
+  57          *
+  58          * @return
+  59          */
+  60          void random_words(){
+  61   1              int a,b,i;
+  62   1              unsigned char tempStr[17];
+  63   1      
+  64   1              initialize_LCD();
+  65   1              write_LCD_CMD(0x0F);
+  66   1              write_String(0,0, "    Example-2   ");
+  67   1      
+  68   1              while(1){
+  69   2                      srand(TH0);
+  70   2                      a = rand()%10;
+  71   2                      b = rand()%10;
+  72   2                      sprintf(tempStr, "%d+%d=%d", a, b, a+b);
+  73   2                      write_LCD_CMD(0xC0|0x05);
+  74   2                      for(i = 0; i < 11; i++){
+  75   3                              if(tempStr[i]) write_LCD_Data(tempStr[i]); 
+  76   3                              else write_LCD_Data(' ');
+  77   3                              delay_ms(150);
+  78   3                      }
+  79   2                      write_String(1, 0, "           ");
+  80   2                      delay_ms(150);
+  81   2                      if(switch2 != 0) break;
+  82   2              }
+  83   1      
+  84   1      }
+  85          
+  86          /**
+  87          * 全码显示
+  88          *
+  89          * @return
+  90          */
+  91          void all_StrCode(){
+  92   1              int i,j;
+  93   1              initialize_LCD();
+  94   1              write_LCD_CMD(0x0F); 
+  95   1              write_String(0,0, "    Example-3   ");
+  96   1              while(1){
+  97   2                      if(switch3) break;
+  98   2                      write_LCD_CMD(0xC0);
+  99   2                      for(i = 0x20; i <= 0xFF; i++){
+ 100   3                              
+ 101   3                              if(i >= 0x80 && i <= 0x90) continue;
+ 102   3                              if((++j) == 16){
+ 103   4                                      write_String(1, 0, "           ");
+ 104   4                                      j = 0;
+ 105   4                                      //如果命令让它从第二行写，就重置到第二行第一个地址
+ 106   4                                      write_LCD_CMD(0xC0);
+ 107   4                              }
+ 108   3                              //if(i == 0xFF) i = 0x20;
+ 109   3                              write_LCD_Data(i);
+ 110   3                              delay_ms(150);
+ 111   3                      }
+ 112   2              
+ 113   2              }
+ 114   1      
+ 115   1      }
+ 116          
+ 117          /**
+C51 COMPILER V9.01   MAINX                                                                 09/23/2019 20:30:38 PAGE 3   
+
+ 118          * 自定义字符显示
+ 119          *
+ 120          * @return
+ 121          */
+ 122          void character_StrCode(){
+ 123   1              int i = 0;
+ 124   1              unsigned char CC[] = {0x1F,0x11,0x1F,0x11,0x1F,0x11,0x1F,0x00};
+ 125   1              initialize_LCD();
+ 126   1              write_LCD_CMD(0x0F); 
+ 127   1              write_String(0, 0, "    Example-4   ");
+ 128   1              write_LCD_CMD(0x40);
+ 129   1              for(i = 0; i < 8; i++){
+ 130   2                      // 通过上面write_LCD_CMD(0x40); 把数组写到CGRAM
+ 131   2                      write_LCD_Data(CC[i]);  
+ 132   2              }
+ 133   1              while(1){
+ 134   2                      if(switch4) break;
+ 135   2                      write_LCD_CMD(0xC0);
+ 136   2                      for(i = 0; i < 16; i++){
+ 137   3                              write_LCD_Data(0);
+ 138   3                              delay_ms(150);
+ 139   3                      }
+ 140   2              }
+ 141   1              write_String(1, 0, "                ");
+ 142   1              delay_ms(150);
+ 143   1      
+ 144   1      }
+ 145          
+ 146          /**
+ 147          * 主函数 
+ 148          */
+ 149          void main(){
+ 150   1              while(1){
+ 151   2                      if(switch1 == 0){
+ 152   3                              h_Scroll_Words();
+ 153   3                      }else if(switch2 == 0){
+ 154   3                              random_words();
+ 155   3                      }else if(switch3 == 0){
+ 156   3                              all_StrCode();
+ 157   3                      }else if(switch4 == 0){
+ 158   3                              character_StrCode();
+ 159   3                      }
+ 160   2              }
+ 161   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     96    ----
-   CONSTANT SIZE    =     45    ----
+   CODE SIZE        =    581    ----
+   CONSTANT SIZE    =    142    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      3       2
+   DATA SIZE        =      3      37
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

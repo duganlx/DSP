@@ -356,6 +356,11 @@
               <FileType>1</FileType>
               <FilePath>.\LCD1602.c</FilePath>
             </File>
+            <File>
+              <FileName>mainX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\mainX.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -43,7 +43,7 @@ void test_BF(){
 }
 
 /*
-* 写数据
+* 写数据（一位一位的写）
 *
 * @param data8 八位数据
 * @return
