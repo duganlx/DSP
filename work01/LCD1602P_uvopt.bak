@@ -186,10 +186,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>58</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>67</TopLine>
-      <CurrentLine>79</CurrentLine>
+      <TopLine>109</TopLine>
+      <CurrentLine>109</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\LCD1602.c</PathWithFileName>
       <FilenameWithoutPath>LCD1602.c</FilenameWithoutPath>
@@ -200,10 +200,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>10</ColumnNumber>
+      <ColumnNumber>22</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>92</TopLine>
-      <CurrentLine>96</CurrentLine>
+      <TopLine>86</TopLine>
+      <CurrentLine>97</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\mainX.c</PathWithFileName>
       <FilenameWithoutPath>mainX.c</FilenameWithoutPath>
@@ -1555,15 +1555,15 @@
       <Documents>
         <Doc>
           <Name>.\LCD1602.c</Name>
-          <ColumnNumber>17</ColumnNumber>
-          <TopLine>67</TopLine>
-          <CurrentLine>79</CurrentLine>
+          <ColumnNumber>58</ColumnNumber>
+          <TopLine>109</TopLine>
+          <CurrentLine>109</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\mainX.c</Name>
-          <ColumnNumber>3</ColumnNumber>
-          <TopLine>93</TopLine>
-          <CurrentLine>112</CurrentLine>
+          <ColumnNumber>16</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

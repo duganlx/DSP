@@ -91,14 +91,14 @@ void random_words(){
 void all_StrCode(){
  	int i,j;
 	initialize_LCD();
-	write_LCD_CMD(0x0F); 
-	write_String(0,0, "    Example-3   ");
+	write_LCD_CMD(0x0F);//0000_1111:显示开/关控制 
+	write_String(0,0, "    Example-3   "); 	
 	while(1){
-		if(switch3) break;
 		write_LCD_CMD(0xC0);
 		for(i = 0x20; i <= 0xFF; i++){
-			
-			if(i >= 0x80 && i <= 0x90) continue;
+			if(switch3) return;
+			if(i >= 0x80 && i < 0xa0) continue;
+
 			if((++j) == 16){
 				write_String(1, 0, "           ");
 				j = 0;
@@ -107,7 +107,7 @@ void all_StrCode(){
 			}
 			//if(i == 0xFF) i = 0x20;
 			write_LCD_Data(i);
-			delay_ms(150);
+			delay_ms(50);
 		}
 	
 	}
@@ -123,23 +123,25 @@ void character_StrCode(){
   	int i = 0;
   	unsigned char CC[] = {0x1F,0x11,0x1F,0x11,0x1F,0x11,0x1F,0x00};
   	initialize_LCD();
-	write_LCD_CMD(0x0F); 
+	write_LCD_CMD(0x0F); // 0000_1111:显示开关控制
 	write_String(0, 0, "    Example-4   ");
-	write_LCD_CMD(0x40);
+	write_LCD_CMD(0x40); //0100_0000:置字符发生存贮器地址
 	for(i = 0; i < 8; i++){
 		// 通过上面write_LCD_CMD(0x40); 把数组写到CGRAM
 		write_LCD_Data(CC[i]);	
 	}
 	while(1){
-		if(switch4) break;
 		write_LCD_CMD(0xC0);
 		for(i = 0; i < 16; i++){
+			if(switch4) return;
 			write_LCD_Data(0);
-			delay_ms(150);
+			delay_ms(50);
 		}
+		//当满行显示后清屏
+		write_String(1, 0, "                ");
+		delay_ms(150);
 	}
-	write_String(1, 0, "                ");
-	delay_ms(150);
+	
 
 }
 

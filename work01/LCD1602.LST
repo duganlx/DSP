@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   LCD1602                                                               09/23/2019 20:30:38 PAGE 1   
+C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:02:07 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
@@ -62,7 +62,7 @@ line level    source
   53   1              EN = 0; RS = 1; RW = 0;
   54   1              P0 = data8;
   55   1              EN = 1; _nop_(); EN = 0;
-C51 COMPILER V9.01   LCD1602                                                               09/23/2019 20:30:38 PAGE 2   
+C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:02:07 PAGE 2   
 
   56   1      }
   57          
@@ -126,7 +126,7 @@ line level    source
  115   1                0000_0110 置输入模式
  116   1                I/D=1 --> 光标右移
  117   1                S=0   --> 屏幕上所有文字左移或右移
-C51 COMPILER V9.01   LCD1602                                                               09/23/2019 20:30:38 PAGE 3   
+C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:02:07 PAGE 3   
 
  118   1              */
  119   1              write_LCD_CMD(0x06);
