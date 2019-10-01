@@ -66,7 +66,7 @@ void random_words(){
 	write_String(0,0, "    Example-2   ");
 
 	while(1){
-		srand(TH0);
+		//srand(TH0);
 		a = rand()%10;
 		b = rand()%10;
 		sprintf(tempStr, "%d+%d=%d", a, b, a+b);

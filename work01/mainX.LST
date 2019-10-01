@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:02:07 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:38:09 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
@@ -62,7 +62,7 @@ line level    source
   53   1      }
   54          
   55          /**
-C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:02:07 PAGE 2   
+C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:38:09 PAGE 2   
 
   56          * 随机数相加
   57          *
@@ -77,7 +77,7 @@ line level    source
   66   1              write_String(0,0, "    Example-2   ");
   67   1      
   68   1              while(1){
-  69   2                      srand(TH0);
+  69   2                      //srand(TH0);
   70   2                      a = rand()%10;
   71   2                      b = rand()%10;
   72   2                      sprintf(tempStr, "%d+%d=%d", a, b, a+b);
@@ -126,7 +126,7 @@ line level    source
  115   1      }
  116          
  117          /**
-C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:02:07 PAGE 3   
+C51 COMPILER V9.01   MAINX                                                                 09/30/2019 11:38:09 PAGE 3   
 
  118          * 自定义字符显示
  119          *
@@ -177,7 +177,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    577    ----
+   CODE SIZE        =    570    ----
    CONSTANT SIZE    =    142    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
