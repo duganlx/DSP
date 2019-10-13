@@ -1,0 +1,235 @@
+C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:05:04 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
+OBJECT MODULE PLACED IN mainX.OBJ
+COMPILER INVOKED BY: E:\software\Keil\C51\BIN\C51.EXE mainX.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<string.h>
+   3          #include<intrins.h>
+   4          
+   5          #define Uint unsigned int
+   6          #define Uchar unsigned char
+   7          
+   8          sbit CS=P1^0; // chip select
+   9          sbit CLK=P1^1; // clock
+  10          sbit DIO=P1^2; // data input and output
+  11          sbit RS=P2^0; // data register status register
+  12          sbit RW=P2^1; // read/write
+  13          sbit EN=P2^2; // enable
+  14          
+  15          Uchar disp_buff1[]="VOLTAGE:  0.00V";
+  16          Uchar disp_buff2[16];
+  17          
+  18          /*
+  19          * 延时
+  20          *  
+  21          * @param x 时间（不精确）
+  22          * @return
+  23          */
+  24          void delay_ms(Uint x)
+  25          {
+  26   1              Uchar t;
+  27   1              while(x--)
+  28   1                      for(t=0; t<120; t++);
+  29   1      }
+  30          
+  31          /*
+  32          * 延时2微秒
+  33          * 
+  34          * @return
+  35          */
+  36          void delay2us()
+  37          {
+  38   1              _nop_();
+  39   1              _nop_();
+  40   1      }
+  41          
+  42          /*
+  43          * 检测BF(busy flag)位状态
+  44          * 
+  45          * @return
+  46          */
+  47          bit test_BF()
+  48          {
+  49   1              Uchar LCD_status;
+  50   1              P0=0xFF;
+  51   1              EN=0;RS=0;RW=1;
+  52   1              EN=1;delay2us();LCD_status=P0;
+  53   1              EN=0;
+  54   1              return (LCD_status&0x80)?1:0;
+  55   1      }
+C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:05:04 PAGE 2   
+
+  56          
+  57          /*
+  58          * 写命令
+  59          *
+  60          * @param cmd 八位命令
+  61          * @return
+  62          */
+  63          void write_CMD(Uchar cmd)
+  64          {
+  65   1              while(test_BF());
+  66   1              EN=0; RS=0; RW=0;
+  67   1              P0=cmd;
+  68   1              EN=1; _nop_(); EN=0;
+  69   1      }
+  70          
+  71          /*
+  72          * 写数据（一位一位的写）
+  73          *
+  74          * @param data8 八位数据
+  75          * @return
+  76          */
+  77          void write_Data(Uchar data8)
+  78          {
+  79   1              while(test_BF());
+  80   1              EN=0; RS=1; RW=0;
+  81   1              P0=data8;
+  82   1              EN=1; _nop_(); EN=0;
+  83   1      }
+  84          
+  85          /*
+  86          * 初始化
+  87          *
+  88          * @return
+  89          */
+  90          void init()
+  91          {
+  92   1              write_CMD(0x38);delay_ms(1);
+  93   1              write_CMD(0x01);delay_ms(1);
+  94   1              write_CMD(0x06);delay_ms(1);
+  95   1              write_CMD(0x0C);delay_ms(1);
+  96   1      }
+  97          
+  98          /*
+  99          * 写字符串
+ 100          *
+ 101          * @param r row
+ 102          * @param c column
+ 103          * @param str 字符串
+ 104          * @return
+ 105          */
+ 106          void write_Str(int r, int c, char *str)
+ 107          {
+ 108   1              int i=0;        
+ 109   1              unsigned char Addressx[] = {0x80, 0xC0};
+ 110   1              unsigned char StartAdd = (Addressx[r] | c);//按位或
+ 111   1      
+ 112   1              write_CMD(StartAdd);
+ 113   1              
+ 114   1              for(i = 0; i < 16; i++){
+ 115   2                      if(str[i]==0) break;
+ 116   2                      write_Data(str[i]);
+ 117   2              }
+C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:05:04 PAGE 3   
+
+ 118   1              // 如果不够16位，用空格填充
+ 119   1              for(;i < 16; i++){
+ 120   2                      write_Data(' ');        
+ 121   2              }
+ 122   1      }
+ 123          
+ 124          /*
+ 125          * AD转换
+ 126          *
+ 127          * @return 输出数据
+ 128          */
+ 129          Uchar get_AD_Res()
+ 130          {
+ 131   1              Uchar i, data1=0, data2=0;
+ 132   1              CS=0;
+ 133   1              //第一个周期：转换开始
+ 134   1              CLK=0;DIO=1;delay2us();
+ 135   1              CLK=1;delay2us();
+ 136   1              
+ 137   1              //第二个周期：选择单通道还是双通道 DIO=0双通道差分 或 DIO=1单通道
+ 138   1              CLK=0;DIO=1;delay2us(); 
+ 139   1              CLK=1;delay2us();
+ 140   1              
+ 141   1              //第三个周期：DIO选择CH1-->如果DIO=0 选择CH0
+ 142   1              CLK=0;DIO=0;delay2us();
+ 143   1              CLK=1;delay2us();
+ 144   1              
+ 145   1              //等待
+ 146   1              CLK=0;DIO=1;delay2us(); 
+ 147   1              
+ 148   1              //先进来的为最高位，后进来为最低位
+ 149   1              for(i=0; i<8; i++)
+ 150   1              {
+ 151   2                      CLK=1;delay2us();
+ 152   2                      CLK=0;delay2us();
+ 153   2                      /*
+ 154   2                      * 0000_0000|0000_000想=0000_000想
+ 155   2                      * 0000_00想0|0000_000翔=0000_00想翔
+ 156   2                      * 0000_0想翔0|0000_000子=0000_0想翔子
+ 157   2                      */
+ 158   2                      data1=(data1<<1)|(Uchar)DIO; 
+ 159   2              }
+ 160   1              
+ 161   1              //先进来的为最低位，后进来为最高位
+ 162   1              for(i=0; i<8; i++)
+ 163   1              {
+ 164   2                      /*
+ 165   2                      * 0000_0000|0000_000子=0000_000子
+ 166   2                      * 0000_000子|0000_00翔0=0000_00翔子
+ 167   2                      * 0000_00翔子|0000_0想00=0000_0想翔子
+ 168   2                      */
+ 169   2                      data2= data2|(Uchar)DIO<<i;
+ 170   2                      CLK=1;delay2us();
+ 171   2                      CLK=0;delay2us();
+ 172   2                       
+ 173   2              }
+ 174   1              
+ 175   1              //禁止片选
+ 176   1              CS=1;
+ 177   1              
+ 178   1              return (data1==data2)?data1:0;
+ 179   1      }
+C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:05:04 PAGE 4   
+
+ 180          
+ 181          void main()
+ 182          {
+ 183   1              Uchar i=0,AD=0;
+ 184   1              Uint d=0;
+ 185   1              init();
+ 186   1              
+ 187   1              while(1)
+ 188   1              {
+ 189   2                      AD=get_AD_Res(); 
+ 190   2                      d=(AD*500.0/256.0);
+ 191   2                      
+ 192   2                      disp_buff1[10]=d/100+'0';
+ 193   2                      disp_buff1[12]=(d/10)%10+'0';
+ 194   2                      disp_buff1[13]=d%10+'0';
+ 195   2                      
+ 196   2                      write_Str(0,0,disp_buff1);
+ 197   2                      
+ 198   2                      //填充实心和空心的框框
+ 199   2                      i=(Uint)AD*16/256;
+ 200   2                      memset(disp_buff2,'\xFF',i);
+ 201   2                      memset(disp_buff2+i,'\xDB',16-i);
+ 202   2                      write_Str(1,0,disp_buff2);
+ 203   2              }
+ 204   1              
+ 205   1      }
+ 206          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    513    ----
+   CONSTANT SIZE    =      2    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     32      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

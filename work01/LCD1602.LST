@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:38:09 PAGE 1   
+C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
@@ -27,124 +27,130 @@ line level    source
   18          * @param ms
   19          * @return  
   20          */
-  21          void delay_ms(int ms){
-  22   1              while(ms--){
-  23   2                      int i = 100;
-  24   2                      while(i--){}
-  25   2              }
-  26   1      }
-  27          
-  28          /*
-  29          * 检测BF(busy flag)位状态
-  30          * 
-  31          * @return
-  32          */
-  33          void test_BF(){
-  34   1              unsigned char LCD_status;
-  35   1              do{
-  36   2                      P0 = 0xFF; // LCD1602读取状态数据，必须有一个上拉电平
-  37   2                      EN = 0; RS = 0; RW = 1; // RS为0时，P0的数据为命令
-  38   2                      EN=1;// 让RS和RW设置有效
-  39   2                      LCD_status = P0;
-  40   2                      _nop_(); _nop_();
-  41   2                      EN = 0;
-  42   2              }while(LCD_status&0x80); // 1000 0000 忙碌状态
-  43   1      }
-  44          
-  45          /*
-  46          * 写数据（一位一位的写）
-  47          *
-  48          * @param data8 八位数据
-  49          * @return
-  50          */
-  51          void write_LCD_Data(unsigned char data8){
-  52   1              test_BF();
-  53   1              EN = 0; RS = 1; RW = 0;
-  54   1              P0 = data8;
-  55   1              EN = 1; _nop_(); EN = 0;
-C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:38:09 PAGE 2   
+  21          void delay_ms(int ms)
+  22          {
+  23   1              while(ms--){
+  24   2                      int i = 100;
+  25   2                      while(i--){}
+  26   2              }
+  27   1      }
+  28          
+  29          /*
+  30          * 检测BF(busy flag)位状态
+  31          * 
+  32          * @return
+  33          */
+  34          void test_BF()
+  35          {
+  36   1              unsigned char LCD_status;
+  37   1              do{
+  38   2                      P0 = 0xFF; // LCD1602读取状态数据，必须有一个上拉电平
+  39   2                      EN = 0; RS = 0; RW = 1; // RS为0时，P0的数据为命令
+  40   2                      EN=1;// 让RS和RW设置有效
+  41   2                      LCD_status = P0;
+  42   2                      _nop_(); _nop_();
+  43   2                      EN = 0;
+  44   2              }while(LCD_status&0x80); // 1000 0000 忙碌状态
+  45   1      }
+  46          
+  47          /*
+  48          * 写数据（一位一位的写）
+  49          *
+  50          * @param data8 八位数据
+  51          * @return
+  52          */
+  53          void write_Data(unsigned char data8)
+  54          {
+  55   1              test_BF();
+C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 2   
 
-  56   1      }
-  57          
-  58          /*
-  59          * 写命令
-  60          *
-  61          * @param cmd8 八位命令
-  62          * @return
-  63          */
-  64          void write_LCD_CMD(unsigned char cmd8){
-  65   1              test_BF();
-  66   1              EN = 0; RS = 0; RW = 0;
-  67   1              P0 = cmd8;
-  68   1              EN = 1; _nop_(); EN = 0;
-  69   1      }
-  70          
-  71          /**
-  72          * 写字符串
-  73          *
-  74          * @param r row
-  75          * @param c column
-  76          * @param str 字符串
-  77          * @return
-  78          */
-  79          void write_String(int r, int c, char *str){
-  80   1              int i=0;        
-  81   1              unsigned char Addressx[] = {0x80, 0xC0};
-  82   1              unsigned char StartAdd = (Addressx[r] | c);//按位或
-  83   1      
-  84   1              write_LCD_CMD(StartAdd);
-  85   1              
-  86   1              for(i = 0; i < 16; i++){
-  87   2                      if(str[i]==0) break;
-  88   2                      write_LCD_Data(str[i]);
-  89   2              }
-  90   1              // 如果不够16位，用空格填充
-  91   1              for(;i < 16; i++){
-  92   2                      write_LCD_Data(' ');    
-  93   2              }
-  94   1      }
-  95          
-  96          /**
-  97          * LCD初始化
-  98          *
-  99          * @return
- 100          */
- 101          void initialize_LCD(){
- 102   1               /*
- 103   1                0011_1000 置功能
- 104   1                DL=1 --> 8位总线
- 105   1                N=0  --> 单行显示
- 106   1                F=0  -->      显示5x7的点阵字符
- 107   1              */      
- 108   1              write_LCD_CMD(0x38);
- 109   1              /*
- 110   1                0000_0001 清显示
- 111   1                指令码01H,光标复位到地址00H位置
- 112   1              */ 
- 113   1              write_LCD_CMD(0x01);
- 114   1              /*
- 115   1                0000_0110 置输入模式
- 116   1                I/D=1 --> 光标右移
- 117   1                S=0   --> 屏幕上所有文字左移或右移
-C51 COMPILER V9.01   LCD1602                                                               09/30/2019 11:38:09 PAGE 3   
+  56   1              EN = 0; RS = 1; RW = 0;
+  57   1              P0 = data8;
+  58   1              EN = 1; _nop_(); EN = 0;
+  59   1      }
+  60          
+  61          /*
+  62          * 写命令
+  63          *
+  64          * @param cmd8 八位命令
+  65          * @return
+  66          */
+  67          void write_CMD(unsigned char cmd8)
+  68          {
+  69   1              test_BF();
+  70   1              EN = 0; RS = 0; RW = 0;
+  71   1              P0 = cmd8;
+  72   1              EN = 1; _nop_(); EN = 0;
+  73   1      }
+  74          
+  75          /**
+  76          * 写字符串
+  77          *
+  78          * @param r row
+  79          * @param c column
+  80          * @param str 字符串
+  81          * @return
+  82          */
+  83          void write_Str(int r, int c, char *str)
+  84          {
+  85   1              int i=0;        
+  86   1              unsigned char Addressx[] = {0x80, 0xC0};
+  87   1              unsigned char StartAdd = (Addressx[r] | c);//按位或
+  88   1      
+  89   1              write_CMD(StartAdd);
+  90   1              
+  91   1              for(i = 0; i < 16; i++){
+  92   2                      if(str[i]==0) break;
+  93   2                      write_Data(str[i]);
+  94   2              }
+  95   1              // 如果不够16位，用空格填充
+  96   1              for(;i < 16; i++){
+  97   2                      write_Data(' ');        
+  98   2              }
+  99   1      }
+ 100          
+ 101          /**
+ 102          * LCD初始化
+ 103          *
+ 104          * @return
+ 105          */
+ 106          void init()
+ 107          {
+ 108   1               /*
+ 109   1                0011_1000 置功能
+ 110   1                DL=1 --> 8位总线
+ 111   1                N=0  --> 单行显示
+ 112   1                F=0  -->      显示5x7的点阵字符
+ 113   1              */      
+ 114   1              write_CMD(0x38);
+ 115   1              /*
+ 116   1                0000_0001 清显示
+ 117   1                指令码01H,光标复位到地址00H位置
+C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 3   
 
- 118   1              */
- 119   1              write_LCD_CMD(0x06);
+ 118   1              */ 
+ 119   1              write_CMD(0x01);
  120   1              /*
- 121   1                0000_1100     显示开/关控制
- 122   1                D=1 --> 开显示
- 123   1                C=0 --> 无光标
- 124   1                B=0 --> 光标不闪烁
- 125   1              */
- 126   1              write_LCD_CMD(0x0C);
- 127   1      }
- 128          
- 129          
- 130          
- 131          
- 132          
- 133          
+ 121   1                0000_0110 置输入模式
+ 122   1                I/D=1 --> 光标右移
+ 123   1                S=0   --> 屏幕上所有文字左移或右移
+ 124   1              */
+ 125   1              write_CMD(0x06);
+ 126   1              /*
+ 127   1                0000_1100     显示开/关控制
+ 128   1                D=1 --> 开显示
+ 129   1                C=0 --> 无光标
+ 130   1                B=0 --> 光标不闪烁
+ 131   1              */
+ 132   1              write_CMD(0x0C);
+ 133   1      }
  134          
+ 135          
+ 136          
+ 137          
+ 138          
+ 139          
+ 140          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
