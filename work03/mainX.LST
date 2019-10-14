@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:24:50 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 10/14/2019 10:53:31 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
@@ -13,73 +13,86 @@ line level    source
    4          #include<intrins.h>
    5          #include<string.h>
    6          
-   7          sbit ADDC=P1^6;
-   8          sbit ADDB=P1^5;
-   9          sbit ADDA=P1^4;
-  10          
-  11          sbit CLK=P1^3; //clock
-  12          sbit ST=P1^2; //start transformation
-  13          sbit EOC=P1^1; //end of conversion
-  14          sbit OE=P1^0; //output enable
-  15          
-  16          unsigned char code SEG7[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x00};
-  17          
-  18          void delay_ms(int i)
-  19          {
-  20   1              int j=0;
-  21   1              while(i--)
-  22   1              {
-  23   2                      for(j=0;j<120;j++);
-  24   2              }
-  25   1      }
-  26          
-  27          void display(unsigned char ADx)
-  28          {
-  29   1              int AD = ADx*500.0/255.0;
-  30   1              P2=0xFD; P0=SEG7[AD/100]; delay_ms(5);//1111_1101 
-  31   1              P2=0xFB; P0=SEG7[(AD/10)%10]; delay_ms(5);//1111_1011
-  32   1              P2=0xF7; P0=SEG7[AD%10]; delay_ms(5);//1111_0111
-  33   1      }
-  34          
-  35          void init()
-  36          {
-  37   1              ADDC=0;
-  38   1              ADDB=1;
-  39   1              ADDA=1;
-  40   1              CLK=0;
-  41   1              ST=1;
-  42   1              EOC=1;
-  43   1              OE=0;
-  44   1      }
-  45          
-  46          void main()
-  47          {
-  48   1              init();
-  49   1              
-  50   1              TMOD=0x02;
-  51   1              TH0=200; 
-  52   1              TL0=200;
-  53   1              EA=1;
-  54   1              ET0=1;
-  55   1              TR0=1;
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 15:24:50 PAGE 2   
+   7          //地址锁存
+   8          sbit ADDC=P1^6;
+   9          sbit ADDB=P1^5;
+  10          sbit ADDA=P1^4;
+  11          
+  12          sbit CLK=P1^3; //clock
+  13          sbit ST=P1^2; //start (转换启动信号)
+  14          sbit EOC=P1^1; //end of conversion (转换结束信号)
+  15          sbit OE=P1^0; //output enable (输出允许信号,用于)
+  16          
+  17          //0~9
+  18          unsigned char code SEG7[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x00};
+  19          
+  20          void delay_ms(int i)
+  21          {
+  22   1              int j=0;
+  23   1              while(i--)
+  24   1              {
+  25   2                      for(j=0;j<120;j++);
+  26   2              }
+  27   1      }
+  28          
+  29          void display(unsigned char ADx)
+  30          {
+  31   1              int AD = ADx*500.0/255.0;
+  32   1              P2=0xFD; P0=SEG7[AD/100]; delay_ms(5);//1111_1101 -> P2^1 
+  33   1              P2=0xFB; P0=SEG7[(AD/10)%10]; delay_ms(5);//1111_1011 -> P2^2
+  34   1              P2=0xF7; P0=SEG7[AD%10]; delay_ms(5);//1111_0111 -> P2^3
+  35   1              // P2=0xFD; P0=SEG7[1]; delay_ms(5);
+  36   1              // P2=0xFB; P0=SEG7[2]; delay_ms(5);
+  37   1              // P2=0xF7; P0=SEG7[3]; delay_ms(5);
+  38   1      }
+  39          
+  40          void init()
+  41          {
+  42   1              // ABC=110选择第三通道
+  43   1              ADDC=0;
+  44   1              ADDB=1;
+  45   1              ADDA=1;
+  46   1              
+  47   1              CLK=0;
+  48   1              ST=1; //内部寄存器清零
+  49   1              EOC=1; // 转换结束(未开始)
+  50   1              OE=0; 
+  51   1      }
+  52          
+  53          void main()
+  54          {
+  55   1              init();
+C51 COMPILER V9.01   MAINX                                                                 10/14/2019 10:53:31 PAGE 2   
 
   56   1              
-  57   1              while(1)
-  58   1              {
-  59   2                      ST=0;_nop_();ST=1;_nop_();ST=0;
-  60   2                      while(EOC==0);
-  61   2                      OE=1;
-  62   2                      display(P3);
-  63   2                      OE=0;
-  64   2              }
-  65   1              
-  66   1      }
-  67          
-  68          void t0() interrupt 1
-  69          {
-  70   1              CLK=!CLK;
-  71   1      }
+  57   1              //计数
+  58   1              TMOD=0x02; //0000_0010 8位 0~255
+  59   1              TH0=200; 
+  60   1              TL0=200; // TL0是真正进行计数,当TL0=255时，将TH0的值赋给TL0
+  61   1              EA=1; // 总中断开关
+  62   1              ET0=1; // T0定时器总中断开关
+  63   1              TR0=1; // 启动T0的开定时器位
+  64   1              
+  65   1              while(1)
+  66   1              {
+  67   2                      ST=0;_nop_();ST=1;_nop_();ST=0;
+  68   2                      while(EOC==0);
+  69   2                      OE=1;
+  70   2                      display(P3);
+  71   2                      OE=0;
+  72   2              }
+  73   1              
+  74   1      }
+  75          
+  76          /*
+  77          * 中断
+  78          *
+  79          * @return
+  80          */
+  81          void t0() interrupt 1
+  82          {
+  83   1              CLK=!CLK;
+  84   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
