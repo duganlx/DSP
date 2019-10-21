@@ -43,7 +43,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>ADC0809P</OutputName>
+          <OutputName>DS18B20P</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -352,9 +352,19 @@
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
-              <FileName>mainX.c</FileName>
+              <FileName>DS18B20.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\mainX.c</FilePath>
+              <FilePath>.\DS18B20.c</FilePath>
+            </File>
+            <File>
+              <FileName>MainX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\MainX.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD1602.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LCD1602.c</FilePath>
             </File>
           </Files>
         </Group>
