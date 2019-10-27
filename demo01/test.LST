@@ -1,0 +1,54 @@
+A51 MACRO ASSEMBLER  TEST                                                                 10/23/2019 12:12:41 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN test.OBJ
+ASSEMBLER INVOKED BY: C:\dev\Keil\C51\BIN\A51.EXE test.a51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1        ORG  0000H
+0000 0200F0            2                     LJMP    Main
+                       3                     
+00F0                   4                     ORG     00F0H
+00F0                   5     Main:   
+00F0 75A0F0            6                     MOV     P2,#0F0H
+00F3 7FFA              7     Next:   MOV     R7, #250 
+00F5                   8     Loop: 
+00F5 7EF0              9                     MOV     R6, #240
+00F7 DEFE             10                     DJNZ    R6, $
+00F9 7EF0             11                     MOV     R6, #240
+00FB DEFE             12                     DJNZ    R6, $
+00FD 7EF0             13                     MOV     R6, #240
+00FF DEFE             14                     DJNZ    R6, $
+0101 7EF0             15                     MOV     R6, #240
+0103 DEFE             16                     DJNZ    R6, $
+0105 DFEE             17                     DJNZ    R7, Loop  ;
+0107 B2A0             18                     CPL     P2.0    ; P 2 .0È¡·´
+0109 B2A1             19                     CPL     P2.1    ; P 2 .0 
+010B B2A2             20                     CPL     P2.2    ; P 2 .0 
+010D B2A3             21                     CPL     P2.3    ; P 2 .0 
+010F B2A4             22                     CPL     P2.4    ; P 2 .0 
+0111 B2A5             23                     CPL     P2.5    ; P 2 .0 
+0113 B2A6             24                     CPL     P2.6    ; P 2 .0 
+0115 B2A7             25                     CPL     P2.7    ; P 2 .0
+0117 80DA             26                     SJMP    Next
+                      27                     END
+A51 MACRO ASSEMBLER  TEST                                                                 10/23/2019 12:12:41 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+LOOP . . . . . . .  C ADDR   00F5H   A   
+MAIN . . . . . . .  C ADDR   00F0H   A   
+NEXT . . . . . . .  C ADDR   00F3H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

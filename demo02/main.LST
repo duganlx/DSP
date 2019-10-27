@@ -1,0 +1,68 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 10/27/2019 21:17:45 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN main.OBJ
+ASSEMBLER INVOKED BY: C:\dev\Keil\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     NAME main       
+                       2     seg_1 SEGMENT CODE                  
+----                   3                RSEG    seg_1            
+0000 030205EE          4     TABLE:     DB      3,2,5,0x0ee  
+                       5     seg_2 SEGMENT IDATA           
+----                   6                RSEG    seg_2
+0000                   7     BUFFER:    DS      19
+                       8     seg_3 SEGMENT XDATA                 
+----                   9                RSEG    seg_3
+0000                  10     XBUFFER:   Ds      100      
+                      11                           
+                      12     myprog SEGMENT CODE  
+----                  13                RSEG    myprog  
+                      14                        USING 0
+0000 020000   F       15                        LJMP    main    
+0100                  16                org    0x100                            
+0100 900000   F       17     main:      MOV     DPTR, #TABLE      ;access code segment 
+0103 7403             18                MOV     A,#03              
+0105 93               19                MOVC    A,@A+DPTR         
+0106 759000           20                        MOV     P1,#0              
+0109 F590             21                        MOV     P1,A    
+                      22                        
+010B 7800     F       23                        MOV     R0,#BUFFER        ;access IDATA segment
+010D F6               24                MOV     @R0,A
+010E 04               25                INC     A               
+010F 08               26                INC     R0           
+0110 F6               27                MOV     @R0,A        
+                      28                        
+0111 900000   F       29                MOV     DPTR,#XBUFFER     ;access XDATA segment              
+0114 04               30                INC     A
+0115 F0               31                        MOVX    @DPTR,A          
+0116 A3               32                INC      DPTR            
+0117 E4               33                CLR      A                 
+0118 F0               34                MOVX    @DPTR,A          
+                      35                        
+                      36     END
+A51 MACRO ASSEMBLER  MAIN                                                                 10/27/2019 21:17:45 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BUFFER . . . . . .  I ADDR   0000H   R   SEG=SEG_2
+MAIN . . . . . . .  C ADDR   0100H   R   SEG=MYPROG
+MYPROG . . . . . .  C SEG    0119H       REL=UNIT
+P1 . . . . . . . .  D ADDR   0090H   A   
+SEG_1. . . . . . .  C SEG    0004H       REL=UNIT
+SEG_2. . . . . . .  I SEG    0013H       REL=UNIT
+SEG_3. . . . . . .  X SEG    0064H       REL=UNIT
+TABLE. . . . . . .  C ADDR   0000H   R   SEG=SEG_1
+XBUFFER. . . . . .  X ADDR   0000H   R   SEG=SEG_3
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,3 @@
+"test.obj" 
+TO "led" 
+RAMSIZE(256) 
