@@ -1,0 +1,107 @@
+C51 COMPILER V9.01   STEPPERMOTER                                                          10/28/2019 12:28:21 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE STEPPERMOTER
+OBJECT MODULE PLACED IN steppermoter.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE steppermoter.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<string.h>
+   3          #include<stdio.h>
+   4          #include<intrins.h>
+   5          #include<stdlib.h>
+   6          
+   7          #define INT8U unsigned char
+   8          #define INT16U unsigned int
+   9          
+  10          sbit FFW_KEY=P3^0;
+  11          sbit REV_KEY=P3^1;
+  12          sbit STOP_KEY=P3^2;
+  13          
+  14          INT8U code FFW_ARR[]={0x01,0x03,0x02,0x06,0x04,0x0C,0x08,0x09};
+  15          INT8U code REV_ARR[]={0x09,0x08,0x0C,0x04,0x06,0x02,0x03,0x01};
+  16          
+  17          void delay_ms(INT16U x)
+  18          {
+  19   1              INT8U t=120;
+  20   1              while(x--)
+  21   1                      while(t--);
+  22   1      }
+  23          
+  24          void STEP_FFW(INT8U n)
+  25          {
+  26   1              INT8U i,j;
+  27   1              
+  28   1              for(i=0; i<5*n; i++)
+  29   1              {
+  30   2                      for(j=0; j<8; j++) //8*9=72
+  31   2                      {
+  32   3                              P1=FFW_ARR[j];
+  33   3                              delay_ms(60);
+  34   3                              
+  35   3                              if(STOP_KEY==0) 
+  36   3                                      return;
+  37   3                      }
+  38   2              }
+  39   1      }
+  40          
+  41          void STEP_REV(INT8U n)
+  42          {
+  43   1              INT8U i,j;
+  44   1              
+  45   1              for(i=0; i<5*n; i++)
+  46   1              {
+  47   2                      for(j=0; j<8; j++)
+  48   2                      {
+  49   3                              P1=REV_ARR[j];
+  50   3                              delay_ms(60);
+  51   3                              
+  52   3                              if(STOP_KEY==0) 
+  53   3                                      return;
+  54   3                      }
+  55   2              }
+C51 COMPILER V9.01   STEPPERMOTER                                                          10/28/2019 12:28:21 PAGE 2   
+
+  56   1      }
+  57          
+  58          void main()
+  59          {
+  60   1              INT8U n = 1;
+  61   1              
+  62   1              while(1)
+  63   1              {
+  64   2                      if(FFW_KEY==0)
+  65   2                      {
+  66   3                              P0=0xFE; // 1111_1110
+  67   3                              STEP_FFW(n);
+  68   3                      }
+  69   2                      else if(REV_KEY==0)
+  70   2                      {
+  71   3                              P0=0xFD; // 1111_1101
+  72   3                              STEP_REV(n);
+  73   3                      }
+  74   2                      else
+  75   2                      {
+  76   3                              P0=0xFB; // 1111_1011
+  77   3                      }
+  78   2              }
+  79   1      }
+  80          
+  81          
+  82          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    149    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
