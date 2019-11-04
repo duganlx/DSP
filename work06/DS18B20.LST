@@ -1,0 +1,122 @@
+C51 COMPILER V9.01   DS18B20                                                               11/04/2019 17:20:13 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DS18B20
+OBJECT MODULE PLACED IN DS18B20.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE DS18B20.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>//register
+   2          #include<intrins.h>//_nop_() _crol_()
+   3          #define INT8U unsigned char
+   4          #define INT16U unsigned int
+   5          #define delay4us();     {_nop_();_nop_();_nop_();_nop_();}
+   6          
+   7          extern void delay_ms(INT16U x);
+   8          
+   9          sbit DQ=P3^3;
+  10          INT8U Temp_Value[]={0x00,0x00}; //温度数据的低8位与高8位
+  11          
+  12          void delayx(INT16U x)
+  13          {
+  14   1              while(x--);
+  15   1      }
+  16          
+  17          /***********AT89C51的主频一定要设为11.0592MHz*****/
+  18          INT8U Init_DS18B20()//初始化和检测DS18B20
+  19          {
+  20   1              INT8U DQ_status;
+  21   1              DQ=1; delayx(8);//delay77us
+  22   1              DQ=0; delayx(90);//>delay480us
+  23   1              DQ=1; delayx(5);//>delay15us
+  24   1              DQ_status=DQ; delayx(90);
+  25   1              
+  26   1              return DQ_status;
+  27   1      }
+  28          
+  29          
+  30          INT8U Readonebyte()//读取DS18B20中的1个字节的数据
+  31          {
+  32   1              INT8U i,datatemp=0x00;
+  33   1              for(i=0x01;i!=0x00;i<<=1)//100000000
+  34   1              {
+  35   2                      DQ=0;_nop_();  
+  36   2                      DQ=1;_nop_();
+  37   2                      if(DQ) datatemp=datatemp|i; 
+  38   2                      delayx(8);
+  39   2              }
+  40   1              return datatemp;
+  41   1      
+  42   1      }
+  43          
+  44          void Writeonebyte(INT8U dat)//dat>>1 00001010 1CY ACC
+  45          { 
+  46   1              INT8U i;
+  47   1              for(i=0;i<8;i++)
+  48   1              {
+  49   2                      DQ=1;_nop_(); 
+  50   2                      DQ=0;_nop_();
+  51   2                      dat=dat>>1;  //PSW
+  52   2                      DQ=CY;
+  53   2                      delayx(8); 
+  54   2               
+  55   2              }
+C51 COMPILER V9.01   DS18B20                                                               11/04/2019 17:20:13 PAGE 2   
+
+  56   1      }
+  57          
+  58          INT8U Read_temperature()
+  59          {
+  60   1              if(Init_DS18B20()==1) return 0;
+  61   1              else
+  62   1              {
+  63   2                      Writeonebyte(0xCC);//跳检序列号
+  64   2                      Writeonebyte(0x44);//启动转换
+  65   2                      Init_DS18B20(); 
+  66   2                      Writeonebyte(0xCC);//跳检序列号 因为只有一个DS18B20
+  67   2                      Writeonebyte(0xBE);//读温度寄存器里的第0，1字节
+  68   2                      Temp_Value[0] = Readonebyte(); 
+  69   2                      Temp_Value[1] = Readonebyte();
+  70   2                      
+  71   2                      return 1;
+  72   2              }
+  73   1      }
+  74          
+  75          
+  76          
+  77          
+  78          
+  79          
+  80          
+  81          
+  82          
+  83          
+  84          
+  85          
+  86          
+  87          
+  88          
+  89          
+  90          
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
+  97          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    152    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

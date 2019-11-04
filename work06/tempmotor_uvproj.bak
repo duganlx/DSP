@@ -43,7 +43,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>steppermoter</OutputName>
+          <OutputName>tempmotor</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -213,7 +213,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x10000</Size>
+                <Size>0xffff</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -352,9 +352,19 @@
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
-              <FileName>steppermoter.c</FileName>
+              <FileName>DS18B20temp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\steppermoter.c</FilePath>
+              <FilePath>.\DS18B20temp.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD1602.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LCD1602.c</FilePath>
+            </File>
+            <File>
+              <FileName>MainX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\MainX.c</FilePath>
             </File>
           </Files>
         </Group>

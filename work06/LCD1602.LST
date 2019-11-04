@@ -1,0 +1,109 @@
+C51 COMPILER V9.01   LCD1602                                                               11/04/2019 17:20:13 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN LCD1602.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE LCD1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<intrins.h>
+   3          
+   4          #define INT8U unsigned char
+   5          #define INT16U unsigned int
+   6          
+   7          sbit RS=P2^0;
+   8          sbit RW=P2^1;
+   9          sbit EN=P2^2;
+  10          
+  11          void delay_ms(INT16U x)
+  12          {
+  13   1              INT8U i;
+  14   1              while(x--)
+  15   1              {
+  16   2                      for(i=0;i<120;i++);
+  17   2              }
+  18   1      }
+  19          
+  20          void Busy_Wait()
+  21          {
+  22   1              INT8U LCD_Status;
+  23   1              do
+  24   1              {
+  25   2                      P0=0xFF;
+  26   2                      EN=0;RS=0;RW=1;
+  27   2                      EN=1; LCD_Status=P0;
+  28   2                      EN=0;
+  29   2              }
+  30   1              while(LCD_Status&0x80);//1000 0000
+  31   1      }
+  32          
+  33          void Write_LCD_Command(INT8U cmd)
+  34          {
+  35   1              Busy_Wait();
+  36   1              EN=0;RS=0;RW=0;
+  37   1              P0=cmd;
+  38   1              EN=1;_nop_();EN=0;
+  39   1      }
+  40          
+  41          void Write_LCD_Data(INT8U data1)
+  42          {
+  43   1              Busy_Wait();
+  44   1              EN=0;RS=1;RW=0;
+  45   1              P0=data1;
+  46   1              EN=1;_nop_();EN=0;
+  47   1      }
+  48          
+  49          void LCD_String(INT8U r,INT8U c,INT8U *str)
+  50          {
+  51   1              INT8U i=0;
+  52   1              INT8U code DDRAM[]={0x80,0xC0};
+  53   1              Write_LCD_Command(DDRAM[r]|c);
+  54   1              for(i=0;i<16&&str[i];i++)
+  55   1              {
+C51 COMPILER V9.01   LCD1602                                                               11/04/2019 17:20:13 PAGE 2   
+
+  56   2                      Write_LCD_Data(str[i]);
+  57   2              }
+  58   1              for(;i<16;i++)
+  59   1                      Write_LCD_Data(' ');
+  60   1      }
+  61          
+  62          void LCD_Initialize()
+  63          {
+  64   1              Write_LCD_Command(0x38);delay_ms(1);//置功能位，8位，双行，每一个字符占5*7      0011 1000
+  65   1              Write_LCD_Command(0x01);delay_ms(1);//清屏 
+  66   1              Write_LCD_Command(0x06);delay_ms(1);//字符进入模式，屏幕不动，字符后移
+  67   1              Write_LCD_Command(0x0C);delay_ms(1);//开显示，关光标
+  68   1      }
+  69          
+  70          
+  71          
+  72          
+  73          
+  74          
+  75          
+  76          
+  77          
+  78          
+  79          
+  80          
+  81          
+  82          
+  83          
+  84          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    171    ----
+   CONSTANT SIZE    =      2    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
