@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   MAINX                                                                 11/04/2019 17:20:13 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 11/11/2019 11:47:31 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
@@ -12,91 +12,108 @@ line level    source
    3          #include<string.h>
    4          #include<stdlib.h>
    5          #include<stdio.h>
-   6          
-   7          #define INT8U unsigned char
-   8          #define INT16U unsigned int
-   9          
-  10          extern void delay_ms(INT16U x);
-  11          extern void LCD_Initialize();
-  12          extern void LCD_String(INT8U r,INT8U c,INT8U *str);
-  13          extern INT8U Temp_Value[];
-  14          extern void delayx(INT16U x);
-  15          extern INT8U Read_temperature();
-  16          
-  17          sbit MA=P1^0; //直流电机A端
-  18          sbit MB=P1^1; //直流电机B端
-  19          sbit PWM=P1^2; //pulse width modification 脉冲宽度调制 功能调速
-  20          
-  21          void main()
-  22          {
-  23   1              float tempv = 0.0;
-  24   1              INT8U temp_buff[17];
-  25   1              
-  26   1              LCD_Initialize();
-  27   1              LCD_String(0, 0, "  RECENT TEMP   ");
-  28   1              LCD_String(1, 0, "     WAITING....");
-  29   1              Read_temperature();
-  30   1              delay_ms(500);
-  31   1              
-  32   1              while(1)
-  33   1              {
-  34   2                      if(Read_temperature())
-  35   2                      {
-  36   3                              tempv = (((int)Temp_Value[1]<<8) | (int)Temp_Value[0]) * 0.0625;
-  37   3                              sprintf(temp_buff, "TEMP:  %5.1f\xDF\x43", tempv);
-  38   3                              LCD_String(1, 0, temp_buff);
-  39   3                              
-  40   3                              if(tempv>=75) tempv = 75;
-  41   3                              if(tempv<=0) tempv = 0;
-  42   3                              
+   6          #define INT8U unsigned char
+   7          #define INT16U unsigned int
+   8          
+   9          extern void delay_ms(INT16U x);
+  10          extern void LCD_Initialize();
+  11          extern void LCD_String(INT8U r,INT8U c,INT8U *str);
+  12          extern INT8U Temp_Value[];
+  13          extern void delayx(INT16U x);
+  14          extern INT8U Read_temperature();
+  15          
+  16          sbit MA=P1^0;//直流电机A端 
+  17          sbit MB=P1^1;//直流电机B端 
+  18          sbit PWM=P1^2;//pulse width modification 脉冲宽度调制 功能调速
+  19          
+  20          static int count = 0;
+  21          float tempv;
+  22          INT8U buff[17];
+  23          
+  24          void T0_interrupt() interrupt 1 //INT0 0, T0 1, INT1 2, T1 3, Serial T 4 
+  25          {
+  26   1              count++;
+  27   1              TL0 = ((INT16U)(65536-(INT16U)(11.0592/12*500)))%256; //t0 low delay->500us
+  28   1              TH0 = ((INT16U)(65536-(INT16U)(11.0592/12*500)))%256; //t0 high
+  29   1              if(count==10)           //增加延时 -> 50ms
+  30   1              {
+  31   2                      count=0;
+  32   2                      
+  33   2                      if(Read_temperature()==1) //顺序程序设计会把执行语句作为延时
+  34   2                      {
+  35   3                              count=0;
+  36   3                              tempv=(((int)Temp_Value[1]<<8)|((int)Temp_Value[0]))*0.0625;
+  37   3                              sprintf(buff,"temp:  %5.1f\xDF\x43",tempv);  
+  38   3                              LCD_String(1,0,buff);
+  39   3                              if(tempv>=75)
+  40   3                                      tempv=75;//正转75度是全速了  temp speed
+  41   3                              if(tempv<=0)
+  42   3                                      tempv=0;//反转0度是全速了
   43   3                              if(tempv>=45)
-  44   3                              {
-  45   4                                      MA = 1;
-  46   4                                      MB = 0;
-  47   4                                      
-  48   4                                      if(tempv==45) PWM = 0;
-  49   4                                      else if(tempv==75) PWM = 1;
-  50   4                                      else
-  51   4                                      {
-  52   5                                              PWM = 1; delay_ms(tempv-45);
-  53   5                                              PWM = 0; delay_ms(75-tempv);
-  54   5                                      }
-  55   4                              }
-C51 COMPILER V9.01   MAINX                                                                 11/04/2019 17:20:13 PAGE 2   
+  44   3                              {   
+  45   4                                      MA=1;
+  46   4                                      MB=0;
+  47   4                                      if(tempv==45)
+  48   4                                              PWM=0;
+  49   4                                      else if(tempv==75)
+  50   4                                              PWM=1;
+  51   4                                      else
+  52   4                                      {   
+  53   5                                              PWM=1;delay_ms(tempv-45); //给力
+  54   5                                              PWM=0;delay_ms(75-tempv);//不给力
+  55   5                                      }
+C51 COMPILER V9.01   MAINX                                                                 11/11/2019 11:47:31 PAGE 2   
 
-  56   3                              else if(tempv<=10)
-  57   3                              {
-  58   4                                      MA = 0;
-  59   4                                      MB = 1;
-  60   4                                      
-  61   4                                      if(tempv==10) PWM = 0;
-  62   4                                      else if(tempv==0) PWM = 1;
-  63   4                                      else
-  64   4                                      {
-  65   5                                              PWM = 1; delay_ms(10-tempv);
-  66   5                                              PWM = 0; delay_ms(tempv);
-  67   5                                      }
-  68   4                              }
-  69   3                              else
-  70   3                              {
-  71   4                                      MA = 0;
-  72   4                                      MB = 0;
-  73   4                                      PWM = 0;
-  74   4                              }
-  75   3                              
-  76   3                      }
-  77   2                      delay_ms(50);
+  56   4                              }
+  57   3                              else if(tempv<=10)
+  58   3                              {   
+  59   4                                      MA=0;
+  60   4                                      MB=1;
+  61   4                                      if(tempv==10) 
+  62   4                                              PWM=0;
+  63   4                                      else if(tempv==0)  
+  64   4                                              PWM=1;
+  65   4                                      else
+  66   4                                      {   
+  67   5                                              PWM=1;delay_ms(10-tempv); //给力
+  68   5                                              PWM=0;delay_ms(tempv-0);//不给力
+  69   5                                      }
+  70   4      
+  71   4                              }
+  72   3                              else
+  73   3                              {   
+  74   4                                      MA=0;
+  75   4                                      MB=0;
+  76   4                              }
+  77   3                      }
   78   2              }
-  79   1              
-  80   1      }
+  79   1                      
+  80   1              
+  81   1              
+  82   1      }
+  83          
+  84          void main()
+  85          { 
+  86   1              LCD_Initialize();       
+  87   1              LCD_String(0,0,"  recent temp");
+  88   1              LCD_String(1,0,"  Waiting.......");
+  89   1              Read_temperature();
+  90   1              delay_ms(1500);
+  91   1              TMOD=0x01; //定时器16位 65535
+  92   1              EA = 1; //总开关
+  93   1              ET0 = 1; //分开关
+  94   1              TR0 = 1; //定时器开关
+  95   1              
+  96   1              while(1);//避免跑飞
+  97   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    436    ----
-   CONSTANT SIZE    =     49    ----
+   CODE SIZE        =    521    ----
+   CONSTANT SIZE    =     46    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      21
+   DATA SIZE        =     23    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

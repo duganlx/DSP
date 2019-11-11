@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   LCD1602                                                               11/04/2019 17:20:13 PAGE 1   
+C51 COMPILER V9.01   LCD1602                                                               11/11/2019 11:47:31 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
@@ -62,7 +62,7 @@ line level    source
   53   1              Write_LCD_Command(DDRAM[r]|c);
   54   1              for(i=0;i<16&&str[i];i++)
   55   1              {
-C51 COMPILER V9.01   LCD1602                                                               11/04/2019 17:20:13 PAGE 2   
+C51 COMPILER V9.01   LCD1602                                                               11/11/2019 11:47:31 PAGE 2   
 
   56   2                      Write_LCD_Data(str[i]);
   57   2              }

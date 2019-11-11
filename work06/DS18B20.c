@@ -3,11 +3,20 @@
 #define INT8U unsigned char
 #define INT16U unsigned int
 #define delay4us();	{_nop_();_nop_();_nop_();_nop_();}
-
 extern void delay_ms(INT16U x);
-
 sbit DQ=P3^3;
 INT8U Temp_Value[]={0x00,0x00};	//温度数据的低8位与高8位
+
+/*
+void delay_ms(INT16U x)
+{
+	INT8U i;
+	while(x--)
+	{
+		for(i=0;i<120;i++);
+	}
+}
+*/
 
 void delayx(INT16U x)
 {
@@ -22,10 +31,8 @@ INT8U Init_DS18B20()//初始化和检测DS18B20
 	DQ=0; delayx(90);//>delay480us
 	DQ=1; delayx(5);//>delay15us
 	DQ_status=DQ; delayx(90);
-	
 	return DQ_status;
 }
-
 
 INT8U Readonebyte()//读取DS18B20中的1个字节的数据
 {
@@ -38,7 +45,6 @@ INT8U Readonebyte()//读取DS18B20中的1个字节的数据
 		delayx(8);
 	}
 	return datatemp;
-
 }
 
 void Writeonebyte(INT8U dat)//dat>>1 00001010 1CY ACC
@@ -51,7 +57,6 @@ void Writeonebyte(INT8U dat)//dat>>1 00001010 1CY ACC
 		dat=dat>>1;  //PSW
 		DQ=CY;
 		delayx(8); 
-	 
 	}
 }
 
@@ -65,33 +70,9 @@ INT8U Read_temperature()
 		Init_DS18B20(); 
 		Writeonebyte(0xCC);//跳检序列号 因为只有一个DS18B20
 		Writeonebyte(0xBE);//读温度寄存器里的第0，1字节
-		Temp_Value[0] = Readonebyte(); 
-		Temp_Value[1] = Readonebyte();
-		
+		Temp_Value[0]=Readonebyte(); 
+		Temp_Value[1]=Readonebyte();
 		return 1;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
