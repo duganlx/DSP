@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"ADC0832X.obj",
+"74HC595.obj",
+"mainX.obj" 
+TO "GP2D12infrared" 

@@ -46,7 +46,7 @@
           <OutputName>GP2D12infrared</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\</ListingPath>
@@ -213,7 +213,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Size>0x10000</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -350,6 +350,21 @@
               <FileName>STARTUP.A51</FileName>
               <FileType>2</FileType>
               <FilePath>.\STARTUP.A51</FilePath>
+            </File>
+            <File>
+              <FileName>ADC0832X.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADC0832X.c</FilePath>
+            </File>
+            <File>
+              <FileName>74HC595.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\74HC595.c</FilePath>
+            </File>
+            <File>
+              <FileName>mainX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\mainX.c</FilePath>
             </File>
           </Files>
         </Group>

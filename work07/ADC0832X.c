@@ -48,10 +48,11 @@ INT8U Get_AD_Result()
 	else
 		return 0;
 }//5v 255	126 3.24 324
-//  INT16U Digit_Convert_Analog(INT8U dat)
-//  {
-//
-//	  INT16U AnalogValue=0x0000;//   x*500/256=y
-//	  AnalogValue=(INT16U)((dat*500.0)/256.0);
-//	  return AnalogValue;
-//  }
+/*
+INT16U Digit_Convert_Analog(INT8U dat)
+{
+	INT16U AnalogValue=0x0000;//   x*500/256=y
+	AnalogValue=(INT16U)((dat*500.0)/256.0);
+	return AnalogValue;
+}
+*/
