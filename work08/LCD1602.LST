@@ -1,0 +1,114 @@
+C51 COMPILER V9.01   LCD1602                                                               11/25/2019 12:22:58 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN LCD1602.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE LCD1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<intrins.h>
+   3          #include<string.h>
+   4          
+   5          #define INT8U unsigned char
+   6          #define INT16U unsigned int
+   7          
+   8          sbit RS = P2^0;
+   9          sbit RW = P2^1;
+  10          sbit EN = P2^2;
+  11          
+  12          void lcd1602_test_bf()
+  13          {
+  14   1              INT8U lcd_status;
+  15   1              do
+  16   1              {
+  17   2                      P0 = 0xFF; //1111_1111
+  18   2                      EN = 0; RS = 0; RW = 1;
+  19   2                      EN = 1;
+  20   2                      lcd_status = P0;
+  21   2                      _nop_(); _nop_();
+  22   2                      EN = 0;
+  23   2              }while(lcd_status&0x80);
+  24   1      }
+  25          
+  26          void lcd1602_write_data(INT8U data8)
+  27          {
+  28   1              lcd1602_test_bf();
+  29   1              EN = 0; RS = 1; RW = 0;
+  30   1              P0 = data8;
+  31   1              EN = 1; _nop_(); EN = 0;
+  32   1      }
+  33          
+  34          void lcd1602_write_cmd(INT8U cmd8)
+  35          {
+  36   1              lcd1602_test_bf();
+  37   1              EN = 0; RS = 0; RW = 0;
+  38   1              P0 = cmd8;
+  39   1              EN = 1; _nop_(); EN = 0;
+  40   1      }
+  41          
+  42          void lcd1602_write_str(int r, int c, char *str)
+  43          {
+  44   1              int i = 0;
+  45   1              INT8U Addressx[] = {0x80, 0xC0};
+  46   1              INT16U startAddress = (Addressx[r] | c);
+  47   1              
+  48   1              lcd1602_write_cmd(startAddress);
+  49   1              
+  50   1              for(i=0; i<16; i++)
+  51   1              {
+  52   2                      if(str[i] == 0) break;
+  53   2                      lcd1602_write_data(str[i]);
+  54   2              }
+  55   1              
+C51 COMPILER V9.01   LCD1602                                                               11/25/2019 12:22:58 PAGE 2   
+
+  56   1              for(; i<16; i++)
+  57   1              {
+  58   2                      lcd1602_write_data(' ');
+  59   2              }
+  60   1      }
+  61          
+  62          void lcd1602_init()
+  63          {
+  64   1              /*
+  65   1                0011_1000     置功能
+  66   1                DL=1 -->      8位总线
+  67   1                N=0  -->      单行显示
+  68   1                F=0  -->      显示5x7的点阵字符
+  69   1              */
+  70   1              lcd1602_write_cmd(0x38);
+  71   1              /*
+  72   1                0000_0001 清显示
+  73   1                指令码01H,光标复位到地址00H位置
+  74   1              */
+  75   1              lcd1602_write_cmd(0x01);
+  76   1              /*
+  77   1                0000_0110 置输入模式
+  78   1                I/D=1 --> 光标右移
+  79   1                S=0   --> 屏幕上所有文字左移或右移
+  80   1              */
+  81   1              lcd1602_write_cmd(0x06);
+  82   1              /*
+  83   1                0000_1100     显示开/关控制
+  84   1                D=1 --> 开显示
+  85   1                C=0 --> 无光标
+  86   1                B=0 --> 光标不闪烁
+  87   1              */
+  88   1              lcd1602_write_cmd(0x0C);
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    183    ----
+   CONSTANT SIZE    =      2    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

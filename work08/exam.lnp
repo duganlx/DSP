@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"LCD1602.obj",
+"Main.obj",
+"DS18B20.obj" 
+TO "exam" 

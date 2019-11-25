@@ -1,0 +1,108 @@
+C51 COMPILER V9.01   MAIN                                                                  11/25/2019 12:22:58 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN Main.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE Main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<stdio.h>
+   3          
+   4          #define INT8U unsigned char
+   5          #define INT16U unsigned int
+   6          
+   7          extern void lcd1602_init();
+   8          extern void lcd1602_write_str(int r, int c, char *str);
+   9          extern INT8U ds18b20_read_temperature();
+  10          extern INT8U temperature_value[];
+  11          extern void delay_ms(INT16U x);
+  12          
+  13          sbit wind_MA=P1^0; 
+  14          sbit wind_MB=P1^1;
+  15          sbit light_MA=P1^2;
+  16          sbit light_MB=P1^3;
+  17          //按钮低电平有效
+  18          sbit wind_button=P1^5;
+  19          sbit light_button=P1^6;
+  20          sbit water_button=P1^7;
+  21          
+  22          static int count = 0;
+  23          INT8U buffer[17];
+  24          float temperature;
+  25          
+  26          void main()
+  27          {
+  28   1              lcd1602_init();
+  29   1              lcd1602_write_str(0, 0, "Greenhouse Test");
+  30   1              lcd1602_write_str(1, 0, "TEMP:");
+  31   1              ds18b20_read_temperature();
+  32   1              delay_ms(1500);
+  33   1              
+  34   1              TMOD=0x01; //定时器16位 65535
+  35   1              EA = 1; //总开关
+  36   1              ET0 = 1; //分开关
+  37   1              TR0 = 1; //定时器开关
+  38   1              
+  39   1              while(1);
+  40   1      }
+  41          
+  42          void T0_interrupt() interrupt 1 
+  43          {
+  44   1              count++;
+  45   1              TL0 = ((INT16U)(65536-(INT16U)(11.0592/12*500)))%256; //t0 low delay->500us
+  46   1              TH0 = ((INT16U)(65536-(INT16U)(11.0592/12*500)))%256; //t0 high
+  47   1              if(count==10)           //增加延时 -> 50ms
+  48   1              {
+  49   2                      count=0;
+  50   2                      
+  51   2                      if(ds18b20_read_temperature())
+  52   2                      {
+  53   3                              count=0;
+  54   3                              temperature=(((int)temperature_value[1]<<8)|((int)temperature_value[0]))*0.0625;
+  55   3                              sprintf(buffer, "TEMP:  %5.2f\xDF\x43", temperature);  
+C51 COMPILER V9.01   MAIN                                                                  11/25/2019 12:22:58 PAGE 2   
+
+  56   3                              lcd1602_write_str(1, 0, buffer);
+  57   3                              
+  58   3                              if(wind_button==0)
+  59   3                              {
+  60   4                                      wind_MA=1;
+  61   4                                      wind_MB=0;
+  62   4                              }
+  63   3                              else
+  64   3                              {
+  65   4                                      wind_MA=0;
+  66   4                                      wind_MB=0;
+  67   4                              }
+  68   3                              
+  69   3                              if(light_button==0)
+  70   3                              {
+  71   4                                      light_MA=1;
+  72   4                                      light_MB=0;
+  73   4                              }
+  74   3                              else
+  75   3                              {
+  76   4                                      light_MA=0;
+  77   4                                      light_MB=0;
+  78   4                              }                       
+  79   3                      }
+  80   2                      else
+  81   2                              lcd1602_write_str(1, 0, "INIT ERROR");
+  82   2              }
+  83   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    261    ----
+   CONSTANT SIZE    =     48    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     23    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

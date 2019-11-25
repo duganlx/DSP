@@ -1,0 +1,106 @@
+C51 COMPILER V9.01   DS18B20                                                               11/25/2019 12:22:58 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DS18B20
+OBJECT MODULE PLACED IN DS18B20.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE DS18B20.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<intrins.h>
+   3          
+   4          #define INT8U unsigned char
+   5          #define INT16U unsigned int
+   6          
+   7          sbit DQ = P2^3;
+   8          INT8U temperature_value[]={0x00, 0x00};
+   9          
+  10          void delay_ms(INT16U x)
+  11          {
+  12   1              INT8U i;
+  13   1              while(x--)
+  14   1              {
+  15   2                      for(i=0;i<120;i++);
+  16   2              }
+  17   1      }
+  18          
+  19          void delay(INT16U x)
+  20          {
+  21   1              while(--x);
+  22   1      }
+  23          
+  24          INT8U ds18b20_init()
+  25          {
+  26   1              INT8U status;
+  27   1              DQ = 1; delay(8);
+  28   1              DQ = 0; delay(90);
+  29   1              DQ = 1; delay(5);
+  30   1              
+  31   1              status = DQ;
+  32   1              delay(90);
+  33   1              
+  34   1              return status;
+  35   1      }
+  36          
+  37          INT8U ds18b20_read_byte()
+  38          {
+  39   1              INT8U i, data8=0x00;
+  40   1              
+  41   1              for(i=0x01; i!=0x00; i<<=1)
+  42   1              {
+  43   2                      DQ=0; _nop_();
+  44   2                      DQ=1; _nop_();
+  45   2                      if(DQ)
+  46   2                              data8 = data8|i;
+  47   2                      delay(8);
+  48   2              }
+  49   1              
+  50   1              return data8;
+  51   1      } 
+  52          
+  53          void ds18b20_write(INT8U data8)
+  54          {
+  55   1              INT8U i;
+C51 COMPILER V9.01   DS18B20                                                               11/25/2019 12:22:58 PAGE 2   
+
+  56   1              
+  57   1              for(i=0; i<8; i++)
+  58   1              {
+  59   2                      DQ=1; _nop_();
+  60   2                      DQ=0; _nop_();
+  61   2                      data8 = data8>>1;
+  62   2                      DQ = CY;
+  63   2                      delay(8);
+  64   2              }
+  65   1      }
+  66          
+  67          INT8U ds18b20_read_temperature()
+  68          {
+  69   1              if(ds18b20_init()) return 0;
+  70   1              else
+  71   1              {
+  72   2                      ds18b20_write(0xCC);
+  73   2                      ds18b20_write(0x44);
+  74   2                      ds18b20_init();
+  75   2                      ds18b20_write(0xCC);
+  76   2                      ds18b20_write(0xBE);
+  77   2                      temperature_value[0] = ds18b20_read_byte();
+  78   2                      temperature_value[1] = ds18b20_read_byte();
+  79   2                      return 1;
+  80   2              }
+  81   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    173    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
