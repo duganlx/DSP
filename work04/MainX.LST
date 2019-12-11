@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   MAINX                                                                 10/21/2019 16:50:59 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 12/11/2019 12:19:54 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
@@ -17,11 +17,11 @@ line level    source
    8          #define INT16U unsigned int
    9          
   10          INT8U temp_buff[17];
-  11          extern INT8U tempValue[];
+  11          extern INT8U temperature_value[];
   12          extern void delay_ms(INT16U x);
   13          extern void LCD_Initialize();
   14          extern void LCD_String(INT8U r,INT8U c,INT8U *str);
-  15          extern INT8U read_temp();
+  15          extern INT8U ds18b20_read_temperature();
   16          
   17          void main()
   18          {
@@ -29,20 +29,23 @@ line level    source
   20   1              LCD_Initialize();
   21   1              LCD_String(0, 0, " DS18B20 Project");
   22   1              LCD_String(1, 0, "    waiting.....");
-  23   1              read_temp();
+  23   1              ds18b20_read_temperature();
   24   1              delay_ms(1000);
   25   1              
-  26   1              while(1)
-  27   1              {
-  28   2                      if(read_temp())
-  29   2                      {
-  30   3                              tempV = (((int)tempValue[1]<<8) | (int)tempValue[0]) * 0.0625;
-  31   3                              sprintf(temp_buff, "  temp: %5.2f\xDF\x43", tempV);
-  32   3                              LCD_String(1, 0, temp_buff);
-  33   3                      }
-  34   2                      delay_ms(50);
-  35   2              }
-  36   1      }
+  26   1              //LCD_String(1, 0, "    cccting.....");
+  27   1              
+  28   1              while(1)
+  29   1              {
+  30   2                      if(ds18b20_read_temperature())
+  31   2                      {
+  32   3                              //LCD_String(1, 0, "    dddting.....");
+  33   3                              tempV =(((int)temperature_value[1]<<8)|((int)temperature_value[0]))*0.0625;
+  34   3                              sprintf(temp_buff, "  temp: %5.2f\xDF\x43", tempV);
+  35   3                              LCD_String(1, 0, temp_buff);
+  36   3                      }
+  37   2                      delay_ms(50);
+  38   2              }
+  39   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

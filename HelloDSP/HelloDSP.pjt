@@ -1,0 +1,25 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\Users\ddu\Documents\AMy\dsp\code\HelloDSP\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+["Compiler" Settings: "Debug"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\Debug" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+
+["Compiler" Settings: "Release"]
+Options=-pdsw225 -o3 -fr"$(Proj_dir)\Release" -d"LARGE_MODEL" -ml -v28
+
+["Linker" Settings: "Debug"]
+Options=-c -m".\Debug\HelloDSP.map" -o".\Debug\HelloDSP.out" -w -x
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\HelloDSP.map" -o".\Release\HelloDSP.out" -w -x
+

@@ -50,7 +50,7 @@ void test_BF()
 * @param data8 八位数据
 * @return
 */
-void write_Data(unsigned char data8)
+void write_data(unsigned char data8)
 {
 	test_BF();
 	EN = 0; RS = 1; RW = 0;
@@ -64,7 +64,7 @@ void write_Data(unsigned char data8)
 * @param cmd8 八位命令
 * @return
 */
-void write_CMD(unsigned char cmd8)
+void write_cmd(unsigned char cmd8)
 {
 	test_BF();
 	EN = 0; RS = 0; RW = 0;
@@ -80,21 +80,21 @@ void write_CMD(unsigned char cmd8)
 * @param str 字符串
 * @return
 */
-void write_Str(int r, int c, char *str)
+void write_str(int r, int c, char *str)
 {
 	int i=0;	
 	unsigned char Addressx[] = {0x80, 0xC0};
 	unsigned char StartAdd = (Addressx[r] | c);//按位或
 
-	write_CMD(StartAdd);
+	write_cmd(StartAdd);
 	
 	for(i = 0; i < 16; i++){
 		if(str[i]==0) break;
-		write_Data(str[i]);
+		write_data(str[i]);
 	}
 	// 如果不够16位，用空格填充
 	for(;i < 16; i++){
-		write_Data(' '); 	
+		write_data(' '); 	
 	}
 }
 
@@ -111,25 +111,25 @@ void init()
 	  N=0  --> 单行显示
 	  F=0  -->	显示5x7的点阵字符
 	*/	
-	write_CMD(0x38);
+	write_cmd(0x38);
 	/*
 	  0000_0001 清显示
 	  指令码01H,光标复位到地址00H位置
 	*/ 
-	write_CMD(0x01);
+	write_cmd(0x01);
 	/*
 	  0000_0110 置输入模式
 	  I/D=1 --> 光标右移
 	  S=0   --> 屏幕上所有文字左移或右移
 	*/
-	write_CMD(0x06);
+	write_cmd(0x06);
 	/*
 	  0000_1100	显示开/关控制
 	  D=1 --> 开显示
 	  C=0 --> 无光标
 	  B=0 --> 光标不闪烁
 	*/
-	write_CMD(0x0C);
+	write_cmd(0x0C);
 }
 
 

@@ -7,3 +7,154 @@ C:\Users\ddu\Documents\AMy\dsp\code\work04\DS18B20P.uvproj
 Project File Date:  10/21/2019
 
 <h2>Output:</h2>
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3231
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3239
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3243
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+DS18B20.C(23): warning C280: 'i': unreferenced local variable
+linking...
+Program Size: data=61.1 xdata=0 code=3239
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3239
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+DS18B20.C(88): error C231: 'DQ': redefinition
+DS18B20.C(89): error C279: 'temperature_value': multiple initialization
+DS18B20.C(98): error C237: '_delay_ms': function already has a body
+DS18B20.C(103): error C237: '_delay': function already has a body
+DS18B20.C(116): error C237: 'ds18b20_init': function already has a body
+DS18B20.C(132): error C237: 'ds18b20_read_byte': function already has a body
+DS18B20.C(146): error C237: '_ds18b20_write': function already has a body
+DS18B20.C(162): error C237: 'ds18b20_read_temperature': function already has a body
+compiling MainX.c...
+Target not created
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY_MS
+    MODULE:  LCD1602.obj (LCD1602)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  _DELAY_MS
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A8FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A98H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A9AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  _DELAY_MS
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0ADEH
+Program Size: data=61.1 xdata=0 code=3226
+Target not created
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _DELAY_MS
+    MODULE:  LCD1602.obj (LCD1602)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  _DELAY_MS
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A8FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A98H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A9AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  _DELAY_MS
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0ADEH
+Program Size: data=61.1 xdata=0 code=3226
+Target not created
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A98H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TEMPVALUE
+    MODULE:  MainX.obj (MAINX)
+    ADDRESS: 0A9AH
+Program Size: data=61.1 xdata=0 code=3204
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling MainX.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3204
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling MainX.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3204
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling MainX.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3234
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling MainX.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3264
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+compiling MainX.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3204
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling DS18B20.c...
+linking...
+Program Size: data=61.1 xdata=0 code=3204
+creating hex file from "DS18B20P"...
+"DS18B20P" - 0 Error(s), 0 Warning(s).

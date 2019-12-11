@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   DS18B20                                                               10/21/2019 16:50:59 PAGE 1   
+C51 COMPILER V9.01   DS18B20                                                               12/11/2019 12:20:35 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE DS18B20
@@ -8,140 +8,87 @@ COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE DS18B20.c BROWSE DEBUG OBJECTEX
 line level    source
 
    1          #include<reg51.h>
-   2          #include<stdio.h>
-   3          #include<intrins.h>
-   4          #include<string.h>
-   5          #include<stdlib.h>
+   2          #include<intrins.h>
+   3          
+   4          #define INT8U unsigned char
+   5          #define INT16U unsigned int
    6          
-   7          #define INT8U unsigned char
-   8          #define INT16U unsigned int
+   7          sbit DQ = P3^4;
+   8          INT8U temperature_value[]={0x00, 0x00};
    9          
-  10          sbit DQ = P3^4; //special bit
-  11          INT8U tempValue[]={0x00, 0x00};
-  12          extern void delay_ms(INT16U x);
-  13          
-  14          /**
-  15          * 延时函数 针对12Mhz的晶振
-  16          * _nop_()相当于一个机器周期（12个振荡周期） --> 1us
-  17          *
-  18          *@param x 延时时间（单位us）
-  19          *@return
-  20          */
-  21          void delay_us(INT16U x)
-  22          {
-  23   1              while(x--)
-  24   1                      _nop_();
-  25   1      }
-  26          
+  10          void delay(INT16U x)
+  11          {
+  12   1              while(--x);
+  13   1      }
+  14          
+  15          INT8U ds18b20_init()
+  16          {
+  17   1              INT8U status;
+  18   1              DQ = 1; delay(8);
+  19   1              DQ = 0; delay(90);
+  20   1              DQ = 1; delay(5);
+  21   1              
+  22   1              status = DQ;
+  23   1              delay(90);
+  24   1              
+  25   1              return status;
+  26   1      }
   27          
-  28          /**
-  29          * 精确延时函数
-  30          * delay(0):延时518us 误差:518-2*256=6
-  31          * delay(1):延时7us
-  32          * delay(10):延时25us    误差:25-20=5
-  33          * delay(20):延时45us    误差:45-40=5
-  34          * delay(100):延时205us 误差:205-200=5
-  35          * delay(200):延时405us 误差:405-400=5
-  36          *
-  37          *@param x 延时时间
-  38          *@return 
-  39          */
-  40          void delay(INT16U x)
-  41          {
-  42   1              while(--x);
-  43   1      }
-  44          
-  45          /**
-  46          * 初始化
-  47          * 拉低电平需要保持480us，高电平需要保持15us
-  48          *
-  49          *@return 0：初始化成功 ，1：初始化失败 
-  50          */
-  51          INT8U init()
-  52          {
-  53   1              INT8U status;
-  54   1              DQ = 1; delay_us(15);   
-  55   1              DQ = 0; delay_us(450);  
-C51 COMPILER V9.01   DS18B20                                                               10/21/2019 16:50:59 PAGE 2   
+  28          INT8U ds18b20_read_byte()
+  29          {
+  30   1              INT8U i, data8=0x00;
+  31   1              
+  32   1              for(i=0x01; i!=0x00; i<<=1)
+  33   1              {
+  34   2                      DQ=0; _nop_();
+  35   2                      DQ=1; _nop_();
+  36   2                      if(DQ)
+  37   2                              data8 = data8|i;
+  38   2                      delay(8);
+  39   2              }
+  40   1              
+  41   1              return data8;
+  42   1      } 
+  43          
+  44          void ds18b20_write(INT8U data8)
+  45          {
+  46   1              INT8U i;
+  47   1              
+  48   1              for(i=0; i<8; i++)
+  49   1              {
+  50   2                      DQ=1; _nop_();
+  51   2                      DQ=0; _nop_();
+  52   2                      data8 = data8>>1;
+  53   2                      DQ = CY;
+  54   2                      delay(8);
+  55   2              }
+C51 COMPILER V9.01   DS18B20                                                               12/11/2019 12:20:35 PAGE 2   
 
-  56   1              DQ = 1; delay_us(15);
-  57   1              status = DQ;
-  58   1              delay_ms(100); 
-  59   1              
-  60   1              return status;
-  61   1      }
-  62          
-  63          /**
-  64          * 读取DQ中的数据
-  65          *
-  66          * @return 八位数据
-  67          */
-  68          INT8U read_byte()
-  69          {
-  70   1              INT8U i, dat=0x00;
-  71   1              
-  72   1              for(i=0x01; i!=0x00; i<<=1) // 从低到高读
-  73   1              {
-  74   2                      DQ=0; delay_us(1);
-  75   2                      DQ=1; delay_us(7);
-  76   2                      if(DQ)
-  77   2                              dat = dat|i;
-  78   2                      delay_us(25); //此延时不能少，确保读时序的长度60us。
-  79   2              }
-  80   1              
-  81   1              return dat;
-  82   1      }
-  83          
-  84          /**
-  85          *写数据
-  86          *
-  87          *@dat 八位数据
-  88          *@return
-  89          */
-  90          void write(INT8U dat)
-  91          {
-  92   1              INT8U i;
-  93   1              
-  94   1              for(i=0; i<8; i++)
-  95   1              {
-  96   2                      DQ=0; delay_us(1);
-  97   2                      dat = dat>>1; //把最低位移到PSW的进/借位CY
-  98   2                      DQ = CY;
-  99   2                      delay(8);
- 100   2                      DQ = 1;
- 101   2              }
- 102   1      }
- 103          
- 104          /**
- 105          *读取温度数据值
- 106          *
- 107          *@return 1：成功，0：失败
- 108          */
- 109          INT8U read_temp()
- 110          {
- 111   1              if(init()) return 0;
- 112   1              else
- 113   1              {
- 114   2                      write(0xCC); //单点连线 
- 115   2                      write(0x44); //启动温度转换
- 116   2                      //init();
- 117   2                      //write(0xCC); //单点连线
-C51 COMPILER V9.01   DS18B20                                                               10/21/2019 16:50:59 PAGE 3   
-
- 118   2                      write(0xBE); //读取温度数字值
- 119   2                      tempValue[0] = read_byte(); //读取RAM里低8位
- 120   2                      tempValue[1] = read_byte(); //读取RAM里高8位
- 121   2                      return 1;
- 122   2              }
- 123   1      }
+  56   1      }
+  57          
+  58          INT8U ds18b20_read_temperature()
+  59          {
+  60   1              if(ds18b20_init()) return 0;
+  61   1              else
+  62   1              {
+  63   2                      ds18b20_write(0xCC);
+  64   2                      ds18b20_write(0x44);
+  65   2                      ds18b20_init();
+  66   2                      ds18b20_write(0xCC);
+  67   2                      ds18b20_write(0xBE);
+  68   2                      temperature_value[0] = ds18b20_read_byte();
+  69   2                      temperature_value[1] = ds18b20_read_byte();
+  70   2                      return 1;
+  71   2              }
+  72   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    178    ----
+   CODE SIZE        =    151    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2       1
+   DATA SIZE        =      2    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

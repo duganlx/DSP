@@ -1,9 +1,9 @@
-C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 1   
+C51 COMPILER V9.01   LCD1602                                                               12/11/2019 11:42:29 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE LCD1602
 OBJECT MODULE PLACED IN LCD1602.OBJ
-COMPILER INVOKED BY: E:\software\Keil\C51\BIN\C51.EXE LCD1602.c BROWSE DEBUG OBJECTEXTEND
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE LCD1602.c BROWSE DEBUG OBJECTEXTEND
 
 line level    source
 
@@ -59,10 +59,10 @@ line level    source
   50          * @param data8 八位数据
   51          * @return
   52          */
-  53          void write_Data(unsigned char data8)
+  53          void write_data(unsigned char data8)
   54          {
   55   1              test_BF();
-C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 2   
+C51 COMPILER V9.01   LCD1602                                                               12/11/2019 11:42:29 PAGE 2   
 
   56   1              EN = 0; RS = 1; RW = 0;
   57   1              P0 = data8;
@@ -75,7 +75,7 @@ line level    source
   64          * @param cmd8 八位命令
   65          * @return
   66          */
-  67          void write_CMD(unsigned char cmd8)
+  67          void write_cmd(unsigned char cmd8)
   68          {
   69   1              test_BF();
   70   1              EN = 0; RS = 0; RW = 0;
@@ -91,21 +91,21 @@ line level    source
   80          * @param str 字符串
   81          * @return
   82          */
-  83          void write_Str(int r, int c, char *str)
+  83          void write_str(int r, int c, char *str)
   84          {
   85   1              int i=0;        
   86   1              unsigned char Addressx[] = {0x80, 0xC0};
   87   1              unsigned char StartAdd = (Addressx[r] | c);//按位或
   88   1      
-  89   1              write_CMD(StartAdd);
+  89   1              write_cmd(StartAdd);
   90   1              
   91   1              for(i = 0; i < 16; i++){
   92   2                      if(str[i]==0) break;
-  93   2                      write_Data(str[i]);
+  93   2                      write_data(str[i]);
   94   2              }
   95   1              // 如果不够16位，用空格填充
   96   1              for(;i < 16; i++){
-  97   2                      write_Data(' ');        
+  97   2                      write_data(' ');        
   98   2              }
   99   1      }
  100          
@@ -122,27 +122,27 @@ line level    source
  111   1                N=0  --> 单行显示
  112   1                F=0  -->      显示5x7的点阵字符
  113   1              */      
- 114   1              write_CMD(0x38);
+ 114   1              write_cmd(0x38);
  115   1              /*
  116   1                0000_0001 清显示
  117   1                指令码01H,光标复位到地址00H位置
-C51 COMPILER V9.01   LCD1602                                                               10/13/2019 13:39:28 PAGE 3   
+C51 COMPILER V9.01   LCD1602                                                               12/11/2019 11:42:29 PAGE 3   
 
  118   1              */ 
- 119   1              write_CMD(0x01);
+ 119   1              write_cmd(0x01);
  120   1              /*
  121   1                0000_0110 置输入模式
  122   1                I/D=1 --> 光标右移
  123   1                S=0   --> 屏幕上所有文字左移或右移
  124   1              */
- 125   1              write_CMD(0x06);
+ 125   1              write_cmd(0x06);
  126   1              /*
  127   1                0000_1100     显示开/关控制
  128   1                D=1 --> 开显示
  129   1                C=0 --> 无光标
  130   1                B=0 --> 光标不闪烁
  131   1              */
- 132   1              write_CMD(0x0C);
+ 132   1              write_cmd(0x0C);
  133   1      }
  134          
  135          

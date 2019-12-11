@@ -1,9 +1,9 @@
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 13:39:29 PAGE 1   
+C51 COMPILER V9.01   MAINX                                                                 12/11/2019 11:46:20 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
 OBJECT MODULE PLACED IN mainX.OBJ
-COMPILER INVOKED BY: E:\software\Keil\C51\BIN\C51.EXE mainX.c BROWSE DEBUG OBJECTEXTEND
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE mainX.c BROWSE DEBUG OBJECTEXTEND
 
 line level    source
 
@@ -25,20 +25,20 @@ line level    source
   16          */
   17          extern void delay_ms(int ms);
   18          extern void init();
-  19          extern void write_CMD(unsigned char cmd8);
-  20          extern void write_Str(int r, int c, char *str);
-  21          extern void write_Data(unsigned char data8);
+  19          extern void write_cmd(unsigned char cmd8);
+  20          extern void write_str(int r, int c, char *str);
+  21          extern void write_data(unsigned char data8);
   22          
   23          /**
   24          * 水平滚动文字
   25          *
   26          * @return
   27          */
-  28          void h_Scroll_Words()
+  28          void h_scroll_words()
   29          {
   30   1              int i;
   31   1              init();
-  32   1              write_Str(0,0, "    Example-1   ");
+  32   1              write_str(0,0, "    Example-1   ");
   33   1              while(1)
   34   1              {
   35   2                      /*
@@ -46,160 +46,151 @@ line level    source
   37   2                      */
   38   2                      for(i = 0; i<strlen(strCode); i++)
   39   2                      {
-  40   3                              write_Str(1, 0, strCode + i);
+  40   3                              write_str(1, 0, strCode + i);
   41   3                              delay_ms(100);
   42   3                      }
   43   2                      
   44   2                      if(switch1 != 0) break;
-  45   2      
-  46   2                      /*
-  47   2                        fun2
-  48   2                      */
-  49   2      //              for(i = 0; i < 16; i++){
-  50   2      //                      write_Str(1, i, "I Love You!"); 
-  51   2      //                      delay_ms(100);
-  52   2      //                      write_Str(1, 0, "                ");
-  53   2      //              }
-  54   2              }
-  55   1      
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 13:39:29 PAGE 2   
+  45   2              }
+  46   1      
+  47   1      }
+  48          
+  49          /**
+  50          * 随机数相加
+  51          *
+  52          * @return
+  53          */
+  54          void random_words()
+  55          {
+C51 COMPILER V9.01   MAINX                                                                 12/11/2019 11:46:20 PAGE 2   
 
-  56   1      }
-  57          
-  58          /**
-  59          * 随机数相加
-  60          *
-  61          * @return
-  62          */
-  63          void random_words()
-  64          {
-  65   1              int a,b,i;
-  66   1              unsigned char tempStr[17];
-  67   1      
-  68   1              init();
-  69   1              write_CMD(0x0F);
-  70   1              write_Str(0,0, "    Example-2   ");
-  71   1      
-  72   1              while(1)
-  73   1              {
-  74   2                      //srand(TH0);
-  75   2                      a = rand()%10;
-  76   2                      b = rand()%10;
-  77   2                      sprintf(tempStr, "%d+%d=%d", a, b, a+b);
-  78   2                      write_CMD(0xC0|0x05);
-  79   2                      for(i = 0; i < 11; i++)
-  80   2                      {
-  81   3                              if(tempStr[i]) write_Data(tempStr[i]); 
-  82   3                              else write_Data(' ');
-  83   3                              delay_ms(150);
-  84   3                      }
-  85   2                      write_Str(1, 0, "           ");
-  86   2                      delay_ms(150);
-  87   2                      if(switch2 != 0) break;
-  88   2              }
-  89   1      
-  90   1      }
-  91          
-  92          /**
-  93          * 全码显示
-  94          *
-  95          * @return
-  96          */
-  97          void all_StrCode()
-  98          {
-  99   1              int i,j;
- 100   1              init();
- 101   1              write_CMD(0x0F);//0000_1111:显示开/关控制 
- 102   1              write_Str(0,0, "    Example-3   ");     
- 103   1              while(1)
- 104   1              {
- 105   2                      write_CMD(0xC0);
- 106   2                      for(i = 0x20; i <= 0xFF; i++)
- 107   2                      {
- 108   3                              if(switch3) return;
- 109   3                              if(i >= 0x80 && i < 0xa0) continue;
- 110   3      
- 111   3                              if((++j) == 16)
- 112   3                              {
- 113   4                                      write_Str(1, 0, "           ");
- 114   4                                      j = 0;
- 115   4                                      //如果命令让它从第二行写，就重置到第二行第一个地址
- 116   4                                      write_CMD(0xC0);
- 117   4                              }
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 13:39:29 PAGE 3   
+  56   1              int a,b,i;
+  57   1              unsigned char tempStr[17];
+  58   1      
+  59   1              init();
+  60   1              write_cmd(0x0F);
+  61   1              write_str(0,0, "    Example-2   ");
+  62   1      
+  63   1              while(1)
+  64   1              {
+  65   2                      //srand(TH0);
+  66   2                      a = rand()%10;
+  67   2                      b = rand()%10;
+  68   2                      sprintf(tempStr, "%d+%d=%d", a, b, a+b);
+  69   2                      write_cmd(0xC0|0x05);
+  70   2                      for(i = 0; i < 11; i++)
+  71   2                      {
+  72   3                              if(tempStr[i]) write_data(tempStr[i]); 
+  73   3                              else write_data(' ');
+  74   3                              delay_ms(150);
+  75   3                      }
+  76   2                      write_str(1, 0, "           ");
+  77   2                      delay_ms(150);
+  78   2                      if(switch2 != 0) break;
+  79   2              }
+  80   1      
+  81   1      }
+  82          
+  83          /**
+  84          * 全码显示
+  85          *
+  86          * @return
+  87          */
+  88          void all_str_code()
+  89          {
+  90   1              int i,j;
+  91   1              init();
+  92   1              write_cmd(0x0F);//0000_1111:显示开/关控制 
+  93   1              write_str(0,0, "    Example-3   ");     
+  94   1              while(1)
+  95   1              {
+  96   2                      write_cmd(0xC0);
+  97   2                      for(i = 0x20; i <= 0xFF; i++)
+  98   2                      {
+  99   3                              if(switch3) return;
+ 100   3                              if(i >= 0x80 && i < 0xa0) continue;
+ 101   3      
+ 102   3                              if((++j) == 16)
+ 103   3                              {
+ 104   4                                      write_str(1, 0, "           ");
+ 105   4                                      j = 0;
+ 106   4                                      //如果命令让它从第二行写，就重置到第二行第一个地址
+ 107   4                                      write_cmd(0xC0);
+ 108   4                              }
+ 109   3                              //if(i == 0xFF) i = 0x20;
+ 110   3                              write_data(i);
+ 111   3                              delay_ms(50);
+ 112   3                      }
+ 113   2              
+ 114   2              }
+ 115   1      
+ 116   1      }
+ 117          
+C51 COMPILER V9.01   MAINX                                                                 12/11/2019 11:46:20 PAGE 3   
 
- 118   3                              //if(i == 0xFF) i = 0x20;
- 119   3                              write_Data(i);
- 120   3                              delay_ms(50);
- 121   3                      }
- 122   2              
- 123   2              }
- 124   1      
- 125   1      }
- 126          
- 127          /**
- 128          * 自定义字符显示
- 129          *
- 130          * @return
- 131          */
- 132          void character_StrCode()
- 133          {
- 134   1              int i = 0;
- 135   1              unsigned char CC[] = {0x1F,0x11,0x1F,0x11,0x1F,0x11,0x1F,0x00};
- 136   1              init();
- 137   1              write_CMD(0x0F); // 0000_1111:显示开关控制
- 138   1              write_Str(0, 0, "    Example-4   ");
- 139   1              write_CMD(0x40); //0100_0000:置字符发生存贮器地址
- 140   1              for(i = 0; i < 8; i++)
- 141   1              {
- 142   2                      // 通过上面write_LCD_CMD(0x40); 把数组写到CGRAM
- 143   2                      write_Data(CC[i]);      
- 144   2              }
- 145   1              while(1)
- 146   1              {
- 147   2                      write_CMD(0xC0);
- 148   2                      for(i = 0; i < 16; i++)
- 149   2                      {
- 150   3                              if(switch4) return;
- 151   3                              write_Data(0);
- 152   3                              delay_ms(50);
- 153   3                      }
- 154   2                      //当满行显示后清屏
- 155   2                      write_Str(1, 0, "                ");
- 156   2                      delay_ms(150);
- 157   2              }
- 158   1              
- 159   1      
- 160   1      }
- 161          
- 162          /**
- 163          * 主函数 
- 164          */
- 165          void main()
- 166          {
- 167   1              while(1)
- 168   1              {
- 169   2                      if(switch1 == 0)
- 170   2                      {
- 171   3                              h_Scroll_Words();
- 172   3                      }
- 173   2                      else if(switch2 == 0)
- 174   2                      {
- 175   3                              random_words();
- 176   3                      }
- 177   2                      else if(switch3 == 0)
- 178   2                      {
- 179   3                              all_StrCode();
-C51 COMPILER V9.01   MAINX                                                                 10/13/2019 13:39:29 PAGE 4   
+ 118          /**
+ 119          * 自定义字符显示
+ 120          *
+ 121          * @return
+ 122          */
+ 123          void character_str_code()
+ 124          {
+ 125   1              int i = 0;
+ 126   1              unsigned char CC[] = {0x1F,0x11,0x1F,0x11,0x1F,0x11,0x1F,0x00};
+ 127   1              init();
+ 128   1              write_cmd(0x0F); // 0000_1111:显示开关控制
+ 129   1              write_str(0, 0, "    Example-4   ");
+ 130   1              write_cmd(0x40); //0100_0000:置字符发生存贮器地址
+ 131   1              for(i = 0; i < 8; i++)
+ 132   1              {
+ 133   2                      // 通过上面write_LCD_CMD(0x40); 把数组写到CGRAM
+ 134   2                      write_data(CC[i]);      
+ 135   2              }
+ 136   1              while(1)
+ 137   1              {
+ 138   2                      write_cmd(0xC0);
+ 139   2                      for(i = 0; i < 16; i++)
+ 140   2                      {
+ 141   3                              if(switch4) return;
+ 142   3                              write_data(0);
+ 143   3                              delay_ms(50);
+ 144   3                      }
+ 145   2                      //当满行显示后清屏
+ 146   2                      write_str(1, 0, "                ");
+ 147   2                      delay_ms(150);
+ 148   2              }
+ 149   1              
+ 150   1      
+ 151   1      }
+ 152          
+ 153          /**
+ 154          * 主函数 
+ 155          */
+ 156          void main()
+ 157          {
+ 158   1              while(1)
+ 159   1              {
+ 160   2                      if(switch1 == 0)
+ 161   2                      {
+ 162   3                              h_scroll_words();
+ 163   3                      }
+ 164   2                      else if(switch2 == 0)
+ 165   2                      {
+ 166   3                              random_words();
+ 167   3                      }
+ 168   2                      else if(switch3 == 0)
+ 169   2                      {
+ 170   3                              all_str_code();
+ 171   3                      }
+ 172   2                      else if(switch4 == 0)
+ 173   2                      {
+ 174   3                              character_str_code();
+ 175   3                      }
+ 176   2              }
+ 177   1      }
 
- 180   3                      }
- 181   2                      else if(switch4 == 0)
- 182   2                      {
- 183   3                              character_StrCode();
- 184   3                      }
- 185   2              }
- 186   1      }
 
+C51 COMPILER V9.01   MAINX                                                                 12/11/2019 11:46:20 PAGE 4   
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    570    ----
