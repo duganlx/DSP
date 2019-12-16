@@ -30,6 +30,9 @@ void InitGpio(void)
      EALLOW;
      
      // 在这里插入初始化函数的代码
+
+	 GpioMuxRegs.GPEMUX.bit.XF_GPIOF14=0;
+	 GpioMuxRegs.GPADIR.bit.GPIOF14=1;
      
      EDIS;
 

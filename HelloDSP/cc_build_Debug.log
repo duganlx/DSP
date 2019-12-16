@@ -1,0 +1,49 @@
+----------------------------  HelloDSP.pjt - Debug  ----------------------------
+[mainx.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"Debug.lkf" "mainx.c"
+"mainx.c", line 7: warning: function declared implicitly
+"mainx.c", line 16: warning: function declared implicitly
+"mainx.c", line 24: error: declaration is incompatible with previous "delay_loop" (declared at line 16)
+"mainx.c", line 28: warning: last line of file ends without a newline
+1 error detected in the compilation of "mainx.c".
+
+>> Compilation failure
+
+[DSP28_Adc.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Adc.c"
+
+[DSP28_CpuTimers.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_CpuTimers.c"
+
+[DSP28_DefaultIsr.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_DefaultIsr.c"
+
+[DSP28_ECan.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_ECan.c"
+
+[DSP28_Ev.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Ev.c"
+
+[DSP28_GlobalVariableDefs.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_GlobalVariableDefs.c"
+
+[DSP28_Gpio.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Gpio.c"
+"DSP28_Gpio.c", line 34: error: struct "GPEMUX_BITS" has no field "XF_GPIOF14"
+"DSP28_Gpio.c", line 35: error: struct "GPADIR_BITS" has no field "GPIOF14"
+2 errors detected in the compilation of "DSP28_Gpio.c".
+
+>> Compilation failure
+
+[DSP28_InitPeripherals.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_InitPeripherals.c"
+
+[DSP28_Mcbsp.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Mcbsp.c"
+
+[DSP28_PieCtrl.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_PieCtrl.c"
+
+[DSP28_PieVect.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_PieVect.c"
+
+[DSP28_Sci.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Sci.c"
+
+[DSP28_Spi.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Spi.c"
+
+[DSP28_SysCtrl.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_SysCtrl.c"
+
+[DSP28_Xintf.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_Xintf.c"
+
+[DSP28_XIntrupt.c] "C:\CCStudio_v3.3PLA\C2000\cgtools\bin\cl2000" -g -pdsw225 -fr"C:/Users/ddu/Documents/AMy/dsp/code/HelloDSP/Debug" -i"../include" -i"./include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 -@"../Debug.lkf" "DSP28_XIntrupt.c"
+
+Build Complete,
+  3 Errors, 3 Warnings, 0 Remarks.

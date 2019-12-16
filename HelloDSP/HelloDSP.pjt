@@ -11,6 +11,26 @@ Tool="Linker"
 Config="Debug"
 Config="Release"
 
+[Source Files]
+Source="library\rts2800_ml.lib"
+Source="source\DSP28_Adc.c"
+Source="source\DSP28_CpuTimers.c"
+Source="source\DSP28_DefaultIsr.c"
+Source="source\DSP28_ECan.c"
+Source="source\DSP28_Ev.c"
+Source="source\DSP28_GlobalVariableDefs.c"
+Source="source\DSP28_Gpio.c"
+Source="source\DSP28_InitPeripherals.c"
+Source="source\DSP28_Mcbsp.c"
+Source="source\DSP28_PieCtrl.c"
+Source="source\DSP28_PieVect.c"
+Source="source\DSP28_Sci.c"
+Source="source\DSP28_Spi.c"
+Source="source\DSP28_SysCtrl.c"
+Source="source\DSP28_Xintf.c"
+Source="source\DSP28_XIntrupt.c"
+Source="cmd\SRAM.cmd"
+
 ["Compiler" Settings: "Debug"]
 Options=-g -pdsw225 -fr"$(Proj_dir)\Debug" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
 
@@ -22,4 +42,10 @@ Options=-c -m".\Debug\HelloDSP.map" -o".\Debug\HelloDSP.out" -w -x
 
 ["Linker" Settings: "Release"]
 Options=-c -m".\Release\HelloDSP.map" -o".\Release\HelloDSP.out" -w -x
+
+["cmd\SRAM.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["cmd\SRAM.cmd" Settings: "Release"]
+LinkOrder=1
 
