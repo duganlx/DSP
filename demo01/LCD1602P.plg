@@ -7,3 +7,8 @@ C:\Users\ddu\Documents\AMy\dsp\code\work01\LCD1602P.uvproj
 Project File Date:  12/11/2019
 
 <h2>Output:</h2>
+Build target 'Target 1'
+linking...
+Program Size: data=58.1 xdata=0 code=2600
+creating hex file from "LCD1602P"...
+"LCD1602P" - 0 Error(s), 0 Warning(s).

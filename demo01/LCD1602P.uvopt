@@ -80,12 +80,12 @@
         <Book>
           <Number>0</Number>
           <Title>Data Sheet</Title>
-          <Path>DATASHTS\ATMEL\AT89C51_DS.PDF</Path>
+          <Path>DATASHTS\ATMEL\DOC0979.PDF</Path>
         </Book>
         <Book>
           <Number>1</Number>
           <Title>Instruction Set Manual</Title>
-          <Path>DATASHTS\ATMEL\AT_C51ISM.PDF</Path>
+          <Path>DATASHTS\ATMEL\DOC0509.PDF</Path>
         </Book>
       </Books>
       <DllOpt>
@@ -186,10 +186,24 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>57</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
-      <CurrentLine>16</CurrentLine>
+      <TopLine>67</TopLine>
+      <CurrentLine>82</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\LCD1602.c</PathWithFileName>
+      <FilenameWithoutPath>LCD1602.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>3</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>18</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>1</TopLine>
+      <CurrentLine>4</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\mainX.c</PathWithFileName>
       <FilenameWithoutPath>mainX.c</FilenameWithoutPath>
@@ -1531,5 +1545,28 @@
       </Window>
     </View>
   </WinLayout>
+
+  <MDIGroups>
+    <Orientation>1</Orientation>
+    <ActiveMDIGroup>0</ActiveMDIGroup>
+    <MDIGroup>
+      <Size>100</Size>
+      <ActiveTab>0</ActiveTab>
+      <Documents>
+        <Doc>
+          <Name>.\mainX.c</Name>
+          <ColumnNumber>18</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>4</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\LCD1602.c</Name>
+          <ColumnNumber>57</ColumnNumber>
+          <TopLine>67</TopLine>
+          <CurrentLine>82</CurrentLine>
+        </Doc>
+      </Documents>
+    </MDIGroup>
+  </MDIGroups>
 
 </ProjectOpt>

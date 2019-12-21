@@ -13,6 +13,7 @@ Config="Release"
 
 [Source Files]
 Source="library\rts2800_ml.lib"
+Source="mainx.c"
 Source="source\DSP28_Adc.c"
 Source="source\DSP28_CpuTimers.c"
 Source="source\DSP28_DefaultIsr.c"
@@ -32,13 +33,13 @@ Source="source\DSP28_XIntrupt.c"
 Source="cmd\SRAM.cmd"
 
 ["Compiler" Settings: "Debug"]
-Options=-g -pdsw225 -fr"$(Proj_dir)\Debug" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
+Options=-g -pdsw225 -fr"$(Proj_dir)\Debug" -i"..\include" -i".\include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28
 
 ["Compiler" Settings: "Release"]
 Options=-pdsw225 -o3 -fr"$(Proj_dir)\Release" -d"LARGE_MODEL" -ml -v28
 
 ["Linker" Settings: "Debug"]
-Options=-c -m".\Debug\HelloDSP.map" -o".\Debug\HelloDSP.out" -w -x
+Options=-c -m".\Debug\HelloDSP.map" -o".\Debug\HelloDSP.out" -stack800 -w -x
 
 ["Linker" Settings: "Release"]
 Options=-c -m".\Release\HelloDSP.map" -o".\Release\HelloDSP.out" -w -x

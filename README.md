@@ -10,6 +10,7 @@ DSP技术及应用
 > - 带光标显示随机算术式
 > - 全码表字符显示
 > - CGRAM自定义字符显示
+> 代码分析，可以参看[blog](https://blog.csdn.net/qq_40626497/article/details/103609525)
 
 ### work02
 > 描述：ADC0832模数转换和LCD显示   
