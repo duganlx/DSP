@@ -1,0 +1,127 @@
+C51 COMPILER V9.01   STEPPERMOTER                                                          12/22/2019 11:05:00 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE STEPPERMOTER
+OBJECT MODULE PLACED IN steppermoter.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE steppermoter.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<string.h>
+   3          #include<stdio.h>
+   4          #include<intrins.h>
+   5          #include<stdlib.h>
+   6          
+   7          #define INT8U unsigned char
+   8          #define INT16U unsigned int
+   9          
+  10          sbit FFW_KEY=P3^0;
+  11          sbit REV_KEY=P3^1;
+  12          sbit STOP_KEY=P3^2;
+  13          
+  14          //0000_0001 A->AB->B->BC->C->CD->D->AD
+  15          INT8U code FFW_ARR[]={0x01,0x03,0x02,0x06,0x04,0x0C,0x08,0x09}; 
+  16          //0000_1001 AD->D->CD->C->BC->B->AB->A
+  17          INT8U code REV_ARR[]={0x09,0x08,0x0C,0x04,0x06,0x02,0x03,0x01};
+  18          
+  19          /**
+  20          *延时
+  21          *
+  22          *@param x 延时时间
+  23          *@return
+  24          */
+  25          void delay_ms(INT16U x)
+  26          {
+  27   1              INT8U t=120;
+  28   1              while(x--)
+  29   1                      while(t--);
+  30   1      }
+  31          
+  32          /**
+  33          *瞬时间旋转
+  34          *
+  35          *@param n 旋转圈数
+  36          *@return
+  37          */
+  38          void STEP_FFW(INT8U n)
+  39          {
+  40   1              INT8U i,j;
+  41   1              
+  42   1              for(i=0; i<5*n; i++)
+  43   1              {
+  44   2                      for(j=0; j<8; j++) //8*9=72
+  45   2                      {
+  46   3                              P1=FFW_ARR[j];
+  47   3                              delay_ms(60);
+  48   3                              
+  49   3                              if(STOP_KEY==0) 
+  50   3                                      return;
+  51   3                      }
+  52   2              }
+  53   1      }
+  54          
+  55          /**
+C51 COMPILER V9.01   STEPPERMOTER                                                          12/22/2019 11:05:00 PAGE 2   
+
+  56          *逆时间旋转
+  57          *
+  58          *@param n 旋转圈数
+  59          *@return
+  60          */
+  61          void STEP_REV(INT8U n)
+  62          {
+  63   1              INT8U i,j;
+  64   1              
+  65   1              for(i=0; i<5*n; i++)
+  66   1              {
+  67   2                      for(j=0; j<8; j++)
+  68   2                      {
+  69   3                              P1=REV_ARR[j];
+  70   3                              delay_ms(60);
+  71   3                              
+  72   3                              if(STOP_KEY==0) 
+  73   3                                      return;
+  74   3                      }
+  75   2              }
+  76   1      }
+  77          
+  78          void main()
+  79          {
+  80   1              INT8U n = 1;
+  81   1              
+  82   1              while(1)
+  83   1              {
+  84   2                      if(FFW_KEY==0)
+  85   2                      {
+  86   3                              P0=0xFE; // 1111_1110
+  87   3                              STEP_FFW(n);
+  88   3                      }
+  89   2                      else if(REV_KEY==0)
+  90   2                      {
+  91   3                              P0=0xFD; // 1111_1101
+  92   3                              STEP_REV(n);
+  93   3                      }
+  94   2                      else
+  95   2                      {
+  96   3                              P0=0xFB; // 1111_1011
+  97   3                      }
+  98   2              }
+  99   1      }
+ 100          
+ 101          
+ 102          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    149    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

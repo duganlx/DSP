@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\ddu\Documents\AMy\dsp\code\work05\steppermoter.uvproj
+Project File Date:  10/28/2019
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling steppermoter.c...
+linking...
+Program Size: data=11.0 xdata=0 code=180
+creating hex file from "steppermoter"...
+"steppermoter" - 0 Error(s), 0 Warning(s).

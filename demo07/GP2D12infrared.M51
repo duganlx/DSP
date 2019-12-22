@@ -1,0 +1,336 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/22/2019  16:02:29  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\DEV\KEIL\C51\BIN\BL51.EXE STARTUP.obj, ADC0832X.obj, 74HC595.obj, mainX.obj TO GP2D12infrared
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  ADC0832X.obj (ADC0832X)
+  74HC595.obj (74HC595)
+  mainX.obj (MAINX)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FPCMP)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FCAST)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\DEV\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\DEV\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\DEV\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
+
+
+LINK MAP OF MODULE:  GP2D12infrared (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0011H     UNIT         _DATA_GROUP_
+            DATA    0019H     0004H     UNIT         ?DT?MAINX
+            IDATA   001DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     042DH     UNIT         ?C?LIB_CODE
+            CODE    0430H     00ACH     UNIT         ?PR?GETDISTANCE?MAINX
+            CODE    04DCH     006CH     UNIT         ?PR?GET_AD_RESULT?ADC0832X
+            CODE    0548H     005EH     UNIT         ?PR?MAIN?MAINX
+            CODE    05A6H     0055H     UNIT         ?PR?_DISTANCE2NUMSTR?MAINX
+            CODE    05FBH     0021H     UNIT         ?PR?_SERIALINPUTDATA?74HC595
+            CODE    061CH     0013H     UNIT         ?PR?BEEP?MAINX
+            CODE    062FH     000DH     UNIT         ?PR?PARALLEDOUTPUTDATA?74HC595
+            CODE    063CH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0648H     000AH     UNIT         ?CO?MAINX
+
+
+
+OVERLAY MAP OF MODULE:   GP2D12infrared (?C_STARTUP)
+
+
+SEGMENT                                  DATA_GROUP 
+  +--> CALLED SEGMENT                  START    LENGTH
+------------------------------------------------------
+?C_C51STARTUP                          -----    -----
+  +--> ?PR?MAIN?MAINX
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2019  16:02:29  PAGE 2
+
+
+
+?PR?MAIN?MAINX                         0008H    0004H
+  +--> ?PR?GETDISTANCE?MAINX
+  +--> ?PR?BEEP?MAINX
+  +--> ?PR?_DISTANCE2NUMSTR?MAINX
+  +--> ?CO?MAINX
+  +--> ?PR?_SERIALINPUTDATA?74HC595
+  +--> ?PR?PARALLEDOUTPUTDATA?74HC595
+
+?PR?GETDISTANCE?MAINX                  000CH    000DH
+  +--> ?PR?GET_AD_RESULT?ADC0832X
+
+?PR?_DISTANCE2NUMSTR?MAINX             000CH    0004H
+
+
+
+SYMBOL TABLE OF MODULE:  GP2D12infrared (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:063CH         SEGMENT       ?C_C51STARTUP
+  I:001DH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:063FH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:063CH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:063CH         LINE#         133
+  C:063EH         LINE#         134
+  C:063FH         LINE#         135
+  C:0640H         LINE#         136
+  C:0642H         LINE#         185
+  C:0645H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        ADC0832X
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2019  16:02:29  PAGE 3
+
+
+  D:0080H         PUBLIC        P0
+  B:0080H.2       PUBLIC        CS
+  B:0080H.1       PUBLIC        CLK
+  B:0080H.0       PUBLIC        DIO
+  C:04DCH         PUBLIC        Get_AD_Result
+  -------         PROC          GET_AD_RESULT
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        dat1
+  D:0005H         SYMBOL        dat2
+  -------         ENDDO         
+  C:04DCH         LINE#         14
+  C:04DCH         LINE#         15
+  C:04DCH         LINE#         16
+  C:04E0H         LINE#         17
+  C:04E2H         LINE#         18
+  C:04E6H         LINE#         19
+  C:04E8H         LINE#         20
+  C:04ECH         LINE#         23
+  C:04F0H         LINE#         24
+  C:04F2H         LINE#         25
+  C:04F6H         LINE#         27
+  C:04FAH         LINE#         28
+  C:04FCH         LINE#         29
+  C:0500H         LINE#         31
+  C:0506H         LINE#         32
+  C:0506H         LINE#         33
+  C:0506H         LINE#         34
+  C:050AH         LINE#         35
+  C:050EH         LINE#         36
+  C:0518H         LINE#         37
+  C:051CH         LINE#         38
+  C:051EH         LINE#         39
+  C:051EH         LINE#         40
+  C:052EH         LINE#         41
+  C:0532H         LINE#         42
+  C:0536H         LINE#         43
+  C:053AH         LINE#         44
+  C:053CH         LINE#         45
+  C:053EH         LINE#         46
+  C:0542H         LINE#         47
+  C:0545H         LINE#         49
+  C:0547H         LINE#         50
+  -------         ENDPROC       GET_AD_RESULT
+  -------         ENDMOD        ADC0832X
+
+  -------         MODULE        74HC595
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00B0H         PUBLIC        P3
+  B:00B0H.6       PUBLIC        SH_CP
+  C:05FBH         PUBLIC        _serialInputData
+  B:00B0H.5       PUBLIC        DS
+  B:00B0H.7       PUBLIC        ST_CP
+  C:062FH         PUBLIC        paralledOutputData
+  -------         PROC          _SERIALINPUTDATA
+  D:0007H         SYMBOL        dat
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2019  16:02:29  PAGE 4
+
+
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:05FBH         LINE#         14
+  C:05FBH         LINE#         15
+  C:05FBH         LINE#         16
+  C:05FDH         LINE#         17
+  C:05FDH         LINE#         18
+  C:05FDH         LINE#         19
+  C:0601H         LINE#         20
+  C:0605H         LINE#         22
+  C:0607H         LINE#         24
+  C:060BH         LINE#         25
+  C:060FH         LINE#         26
+  C:0613H         LINE#         27
+  C:0617H         LINE#         28
+  C:061BH         LINE#         29
+  -------         ENDPROC       _SERIALINPUTDATA
+  -------         PROC          PARALLEDOUTPUTDATA
+  C:062FH         LINE#         31
+  C:062FH         LINE#         32
+  C:062FH         LINE#         33
+  C:0633H         LINE#         34
+  C:0637H         LINE#         35
+  C:063BH         LINE#         36
+  -------         ENDPROC       PARALLEDOUTPUTDATA
+  -------         ENDMOD        74HC595
+
+  -------         MODULE        MAINX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:061CH         PUBLIC        beep
+  C:0548H         PUBLIC        main
+  D:0019H         PUBLIC        numstr
+  C:0648H         PUBLIC        segment7
+  C:05A6H         PUBLIC        _distance2numstr
+  B:0090H.0       PUBLIC        beeppin
+  C:0430H         PUBLIC        getDistance
+  -------         PROC          BEEP
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:061CH         LINE#         21
+  C:061CH         LINE#         22
+  C:061CH         LINE#         23
+  C:061EH         LINE#         24
+  C:0620H         LINE#         25
+  C:0620H         LINE#         26
+  C:0620H         LINE#         27
+  C:0622H         LINE#         28
+  C:0624H         LINE#         29
+  C:062AH         LINE#         30
+  C:062EH         LINE#         31
+  -------         ENDPROC       BEEP
+  -------         PROC          GETDISTANCE
+  -------         DO            
+  D:000CH         SYMBOL        d
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2019  16:02:29  PAGE 5
+
+
+  D:0010H         SYMBOL        sum
+  D:0014H         SYMBOL        avg
+  D:0018H         SYMBOL        i
+  -------         ENDDO         
+  C:0430H         LINE#         33
+  C:0430H         LINE#         34
+  C:0430H         LINE#         35
+  C:0449H         LINE#         36
+  C:044BH         LINE#         38
+  C:044DH         LINE#         39
+  C:044DH         LINE#         40
+  C:0479H         LINE#         41
+  C:0482H         LINE#         42
+  C:04A5H         LINE#         43
+  C:04DBH         LINE#         44
+  C:04DBH         LINE#         45
+  -------         ENDPROC       GETDISTANCE
+  -------         PROC          _DISTANCE2NUMSTR
+  D:000CH         SYMBOL        d
+  -------         DO            
+  D:0002H         SYMBOL        dis
+  -------         ENDDO         
+  C:05A6H         LINE#         47
+  C:05AEH         LINE#         48
+  C:05AEH         LINE#         49
+  C:05C7H         LINE#         50
+  C:05D3H         LINE#         51
+  C:05EAH         LINE#         52
+  C:05FAH         LINE#         53
+  -------         ENDPROC       _DISTANCE2NUMSTR
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        dis
+  -------         ENDDO         
+  C:0548H         LINE#         55
+  C:0548H         LINE#         56
+  C:0548H         LINE#         57
+  C:0551H         LINE#         58
+  C:0551H         LINE#         59
+  C:0551H         LINE#         60
+  C:055CH         LINE#         61
+  C:0570H         LINE#         62
+  C:0573H         LINE#         63
+  C:057EH         LINE#         64
+  C:0589H         LINE#         65
+  C:0596H         LINE#         66
+  C:05A1H         LINE#         67
+  C:05A4H         LINE#         68
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAINX
+
+  -------         MODULE        ?C?FPADD
+  C:000AH         PUBLIC        ?C?FPADD
+  C:0006H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2019  16:02:29  PAGE 6
+
+
+  C:00FBH         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:0204H         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FPCMP
+  C:02A3H         PUBLIC        ?C?FPCMP
+  C:02A1H         PUBLIC        ?C?FPCMP3
+  -------         ENDMOD        ?C?FPCMP
+
+  -------         MODULE        ?C?FCAST
+  C:0318H         PUBLIC        ?C?FCASTC
+  C:0313H         PUBLIC        ?C?FCASTI
+  C:030EH         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:034CH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?UIDIV
+  C:03CDH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?LNEG
+  C:0422H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+Program Size: data=30.0 xdata=0 code=1618
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

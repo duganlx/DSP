@@ -1,0 +1,18 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\ddu\Documents\AMy\dsp\code\work08\exam.uvproj
+Project File Date:  11/25/2019
+
+<h2>Output:</h2>
+Build target 'Target 1'
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD1602_WRITE_STR?LCD1602
+    CALLER1: ?C_C51STARTUP
+    CALLER2: ?PR?T0_INTERRUPT?MAIN
+Program Size: data=72.1 xdata=0 code=3622
+creating hex file from "exam"...
+"exam" - 0 Error(s), 1 Warning(s).

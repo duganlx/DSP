@@ -1,0 +1,128 @@
+C51 COMPILER V9.01   MAINX                                                                 12/22/2019 08:02:58 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAINX
+OBJECT MODULE PLACED IN mainX.OBJ
+COMPILER INVOKED BY: C:\dev\Keil\C51\BIN\C51.EXE mainX.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<stdio.h>
+   3          #include<stdlib.h>
+   4          #include<intrins.h>
+   5          #include<string.h>
+   6          
+   7          //地址锁存
+   8          sbit ADDC=P1^6;
+   9          sbit ADDB=P1^5;
+  10          sbit ADDA=P1^4;
+  11          
+  12          sbit CLK=P1^3; //clock
+  13          sbit ST=P1^2; //start (转换启动信号)
+  14          sbit EOC=P1^1; //end of conversion (转换结束信号)
+  15          sbit OE=P1^0; //output enable (输出允许信号,用于)
+  16          
+  17          //0~9
+  18          unsigned char code SEG7[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x00};
+  19          
+  20          /*
+  21          * 延时
+  22          *  
+  23          * @param x 时间（不精确）
+  24          * @return
+  25          */
+  26          void delay_ms(int i)
+  27          {
+  28   1              int j=0;
+  29   1              while(i--)
+  30   1              {
+  31   2                      for(j=0;j<120;j++);
+  32   2              }
+  33   1      }
+  34          
+  35          /*
+  36          * 显示
+  37          * 
+  38          * @param ADx AD转换过后的八位数值
+  39          * @return
+  40          */
+  41          void display(unsigned char ADx)
+  42          {
+  43   1              int AD = ADx*500.0/255.0;
+  44   1              P2=0xFD; P0=SEG7[AD/100]; delay_ms(5);//1111_1101 -> P2^1 
+  45   1              P2=0xFB; P0=SEG7[(AD/10)%10]; delay_ms(5);//1111_1011 -> P2^2
+  46   1              P2=0xF7; P0=SEG7[AD%10]; delay_ms(5);//1111_0111 -> P2^3
+  47   1      }
+  48          
+  49          /*
+  50          * 初始化
+  51          *
+  52          * @return
+  53          */
+  54          void init()
+  55          {
+C51 COMPILER V9.01   MAINX                                                                 12/22/2019 08:02:58 PAGE 2   
+
+  56   1              // ABC=110选择第三通道
+  57   1              ADDC=0;
+  58   1              ADDB=1;
+  59   1              ADDA=1;
+  60   1              
+  61   1              CLK=0;
+  62   1              ST=1; //内部寄存器清零
+  63   1              EOC=1; // 转换结束(未开始)
+  64   1              OE=0; 
+  65   1      }
+  66          
+  67          void main()
+  68          {
+  69   1              init();
+  70   1              
+  71   1              //TMOD(定时器)
+  72   1              TMOD=0x02; //0000_0010 8位 0~255
+  73   1              /*
+  74   1               对定时器T0来说是分成两个寄存器：TH0为高八位，TL0为低八位，组成了16位的定时器，
+  75   1               当低位TL0计满就向高位TH0移一个数，然后清零
+  76   1               TH0和TL0决定采样频率(数值越大，频率越高)
+  77   1              */
+  78   1              TH0=200; 
+  79   1              TL0=200; 
+  80   1              EA=1; // 总中断开关
+  81   1              ET0=1; // T0定时器总中断开关
+  82   1              TR0=1; // 启动T0的开定时器位
+  83   1              
+  84   1              while(1)
+  85   1              {
+  86   2                      ST=0;_nop_();ST=1;_nop_();ST=0;
+  87   2                      while(EOC==0);
+  88   2                      OE=1;
+  89   2                      display(P3);
+  90   2                      OE=0;
+  91   2              }
+  92   1              
+  93   1      }
+  94          
+  95          /*
+  96          * 中断
+  97          *
+  98          * @return
+  99          */
+ 100          void t0() interrupt 1
+ 101          {
+ 102   1              CLK=!CLK;
+ 103   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    225    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
